@@ -1,3 +1,7 @@
+public class Quest();
+
+public class Monster();
+
 public class Location
 {
     public int ID;
@@ -5,6 +9,10 @@ public class Location
     public string Name;
 
     public string Description;
+
+    public Quest? QuestAvailableHere;
+
+    public Monster? MonsterLivingHere;
 
     public Location? LocationToNorth;
 
@@ -14,7 +22,7 @@ public class Location
 
     public Location? LocationToWest;
 
-    public Location(int id, string name, string description)
+    public Location(int id, string name, string description, Quest? quest, Monster? monster)
     {
         ID = id;
         Name = name;
