@@ -37,6 +37,12 @@ public class Location
             var x when x == LocationToWest?.ID => true,
             _ => false,
         };
-    } 
+    }     
+
+
+    public string QuestDescription()
+    {
+        return Description;
+    }
 
 }

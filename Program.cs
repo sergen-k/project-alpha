@@ -7,10 +7,14 @@
         string name = Console.ReadLine() ?? "John Doe";
 
         Player player = new(name, 100);
-
         SetupGame(player);
 
-        
+        bool is_game_finished = false;
+
+        while (is_game_finished)
+        {
+            
+        }
 
     }
 
