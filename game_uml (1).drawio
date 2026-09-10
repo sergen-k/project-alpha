@@ -1,0 +1,49 @@
+<mxfile host="Electron" agent="ChatGPT">
+  <diagram id="uml-game" name="Page-1">
+    <mxGraphModel dx="1885" dy="1132" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="program" parent="1" style="swimlane;fontStyle=1;horizontal=1;startSize=34;rounded=1;html=1;fillColor=#FFFFFF;swimlaneFillColor=#B7DDE8;strokeColor=#A6A6A6;fontSize=16;" value="Program" vertex="1">
+          <mxGeometry height="84" width="180" x="405" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="quest" parent="1" style="swimlane;fontStyle=1;horizontal=1;startSize=34;rounded=1;html=1;fillColor=#FFFFFF;swimlaneFillColor=#B7DDE8;strokeColor=#A6A6A6;fontSize=16;" value="Quest" vertex="1">
+          <mxGeometry height="116" width="180" x="70" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="questText" parent="quest" style="text;html=1;align=left;verticalAlign=top;spacingLeft=6;spacingTop=5;fontSize=13;strokeColor=none;fillColor=none;" value="int ID&lt;br&gt;string Name&lt;br&gt;string Description" vertex="1">
+          <mxGeometry height="76" width="178" y="38" as="geometry" />
+        </mxCell>
+        <mxCell id="world" parent="1" style="swimlane;fontStyle=1;horizontal=1;startSize=34;rounded=1;html=1;fillColor=#FFFFFF;swimlaneFillColor=#B7DDE8;strokeColor=#A6A6A6;fontSize=16;" value="World" vertex="1">
+          <mxGeometry height="116" width="180" x="405" y="230" as="geometry" />
+        </mxCell>
+        <mxCell id="worldText" parent="world" style="text;html=1;align=left;verticalAlign=top;spacingLeft=6;spacingTop=5;fontSize=13;strokeColor=none;fillColor=none;" value="..." vertex="1">
+          <mxGeometry height="70" width="178" y="38" as="geometry" />
+        </mxCell>
+        <mxCell id="player" parent="1" style="swimlane;fontStyle=1;horizontal=1;startSize=34;rounded=1;html=1;fillColor=#FFFFFF;swimlaneFillColor=#B7DDE8;strokeColor=#A6A6A6;fontSize=16;" value="Player" vertex="1">
+          <mxGeometry height="124" width="210" x="740" y="210" as="geometry" />
+        </mxCell>
+        <mxCell id="playerText" parent="player" style="text;html=1;align=left;verticalAlign=top;spacingLeft=6;spacingTop=5;fontSize=13;strokeColor=none;fillColor=none;" value="string Name&lt;br&gt;int CurrentHitPoints&lt;br&gt;int MaximumHitPoints&lt;br&gt;Weapon CurrentWeapon&lt;br&gt;Location CurrentLocation" vertex="1">
+          <mxGeometry height="82" width="208" y="38" as="geometry" />
+        </mxCell>
+        <mxCell id="monster" parent="1" style="swimlane;fontStyle=1;horizontal=1;startSize=34;rounded=1;html=1;fillColor=#FFFFFF;swimlaneFillColor=#B7DDE8;strokeColor=#A6A6A6;fontSize=16;" value="Monster" vertex="1">
+          <mxGeometry height="124" width="180" x="75" y="390" as="geometry" />
+        </mxCell>
+        <mxCell id="monsterText" parent="monster" style="text;html=1;align=left;verticalAlign=top;spacingLeft=6;spacingTop=5;fontSize=13;strokeColor=none;fillColor=none;" value="int ID&lt;br&gt;string Name&lt;br&gt;int MaximumDamage&lt;br&gt;int CurrentHitPoints&lt;br&gt;int MaximumHitPoints" vertex="1">
+          <mxGeometry height="82" width="178" y="38" as="geometry" />
+        </mxCell>
+        <mxCell id="location" parent="1" style="swimlane;fontStyle=1;horizontal=1;startSize=34;rounded=1;html=1;fillColor=#FFFFFF;swimlaneFillColor=#B7DDE8;strokeColor=#A6A6A6;fontSize=16;" value="Location" vertex="1">
+          <mxGeometry height="184" width="270" x="365" y="455" as="geometry" />
+        </mxCell>
+        <mxCell id="locationText" parent="location" style="text;html=1;align=left;verticalAlign=top;spacingLeft=6;spacingTop=5;fontSize=13;strokeColor=none;fillColor=none;" value="int ID&lt;br&gt;string Name&lt;br&gt;string Description&lt;br&gt;Quest QuestAvailableHere&lt;br&gt;Monster MonsterLivingHere&lt;br&gt;Location LocationToNorth&lt;br&gt;Location LocationToEast&lt;br&gt;Location LocationToSouth&lt;br&gt;Location LocationToWest" vertex="1">
+          <mxGeometry height="140" width="268" y="38" as="geometry" />
+        </mxCell>
+        <mxCell id="weapon" parent="1" style="swimlane;fontStyle=1;horizontal=1;startSize=34;rounded=1;html=1;fillColor=#FFFFFF;swimlaneFillColor=#B7DDE8;strokeColor=#A6A6A6;fontSize=16;" value="Weapon" vertex="1">
+          <mxGeometry height="116" width="180" x="740" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="weaponText" parent="weapon" style="text;html=1;align=left;verticalAlign=top;spacingLeft=6;spacingTop=5;fontSize=13;strokeColor=none;fillColor=none;" value="int ID&lt;br&gt;string Name&lt;br&gt;int MaximumDamage" vertex="1">
+          <mxGeometry height="76" width="178" y="38" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
