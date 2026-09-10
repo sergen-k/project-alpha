@@ -33,6 +33,12 @@ public class Player
         // Show the updated health
         ShowHealth();
     }
+    
+    public bool IsDead()
+    {
+        // Check if the player has no health left
+        return CurrentHitPoints == 0;
+    }
     public void MoveToLocation(Location location)
     {
         CurrentLocation = location;
