@@ -1,18 +1,3 @@
-public class Weapon{
-    public int ID;
-
-    public string Name;
-
-    public int Strength;
-
-    public Weapon(int iD, string name, int strength)
-    {
-        ID = iD;
-        Name = name;
-        Strength = strength;
-    }
-}
-
 public static class World
 {
 
