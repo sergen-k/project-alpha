@@ -3,6 +3,8 @@ public class Player
     public string Name;
     public int CurrentHitPoints;
     public int MaximumHitPoints;
+
+    public bool IsFighting;
     public Weapon CurrentWeapon;
     public Location CurrentLocation;
 

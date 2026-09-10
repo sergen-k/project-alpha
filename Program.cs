@@ -9,11 +9,29 @@
         Player player = new(name, 100);
         SetupGame(player);
 
-        bool is_game_finished = false;
-
-        while (is_game_finished)
+        bool is_game_running = true;
+         
+         // main game loop
+        while (is_game_running)
         {
-            
+            //TODO show the stats of the player
+
+
+
+            //TODO is player fighting 
+             // sergen zijn code 
+
+
+
+            //TODO is player in inventory 
+             // mohhamed en jasarat
+
+
+            //TODO is player in location
+             // rik en yessin zijn code gaan hier
+
+
+
         }
 
     }
