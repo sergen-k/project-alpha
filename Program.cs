@@ -30,4 +30,15 @@
         return "Hallo welkom bij onze game blah";
     }
 
+    public static void Stats()
+    {
+        Console.Clear();
+        Console.WriteLine($"NAME: {player.Name}");
+        Console.WriteLine($"WEAPON: {player.CurrentWeapon}");
+        // Display Armour
+        // Display Quest
+        Console.WriteLine($"LOCATION: {player.CurrentLocation}");
+        Console.WriteLine("__________________________________________");
+        Console.WriteLine();
+    }
 }
