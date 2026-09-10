@@ -14,6 +14,10 @@ public class Player
         MaximumHitPoints = maximumHitPoints;
         CurrentHitPoints = maximumHitPoints;
     }
+    public void ShowHealth()
+    {
+        Console.WriteLine($"Health: {CurrentHitPoints}/{MaximumHitPoints}");
+    }
 
     public void MoveToLocation(Location location)
     {
