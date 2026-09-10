@@ -21,6 +21,20 @@ public class Player
         Console.WriteLine($"Health: {CurrentHitPoints}/{MaximumHitPoints}");
     }
 
+        public void TakeDamage(int damage)
+    {
+        //Reduce the player's health
+        CurrentHitPoints -= damage;
+
+        // Health cannot go below 0
+        if (CurrentHitPoints < 0)
+        {
+            CurrentHitPoints = 0;
+        }
+
+        // Show the updated health
+        ShowHealth();
+    }
     public void MoveToLocation(Location location)
     {
         CurrentLocation = location;
