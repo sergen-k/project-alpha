@@ -33,11 +33,26 @@ public class Player
         // Show the updated health
         ShowHealth();
     }
-    
+
     public bool IsDead()
     {
         // Check if the player has no health left
         return CurrentHitPoints == 0;
+    }
+
+    public void Heal(int amount)
+    {
+        // Increase the player's health
+        CurrentHitPoints += amount;
+
+        // Health cannot go above maximum health
+        if (CurrentHitPoints > MaximumHitPoints)
+        {
+            CurrentHitPoints = MaximumHitPoints;
+        }
+
+        // Show the updated health
+        ShowHealth();
     }
     public void MoveToLocation(Location location)
     {
