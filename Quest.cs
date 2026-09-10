@@ -1,6 +1,6 @@
 public class Quest
 {
-    public int id;
+    public int ID;
 
     public string name;
 
@@ -8,11 +8,9 @@ public class Quest
 
     public Quest(int id,string name, string description)
     {
-        this.id = id;
+        this.ID = id;
         this.name = name;
-        this.description = descriptionl;
+        this.description = description;
     }
-
-
     
 }

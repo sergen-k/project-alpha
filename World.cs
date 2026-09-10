@@ -1,3 +1,18 @@
+public class Weapon{
+    public int ID;
+
+    public string Name;
+
+    public int Strength;
+
+    public Weapon(int iD, string name, int strength)
+    {
+        ID = iD;
+        Name = name;
+        Strength = strength;
+    }
+}
+
 public static class World
 {
 
@@ -98,7 +113,7 @@ public static class World
         Location alchemistHut = new Location(LOCATION_ID_ALCHEMIST_HUT, "Alchemist's hut", "There are many strange plants on the shelves.", null, null);
         alchemistHut.QuestAvailableHere = QuestByID(QUEST_ID_CLEAR_ALCHEMIST_GARDEN);
 
-        Location alchemistsGarden = new Location(LOCATION_ID_ALCHEMISTS_GARDEN, "Alchemist's garden", "Many plants are growing here.", null, null);
+        Location alchemistsGarden = new Location(LOCATION_ID_ALCHEMISTS_GARDEN, "Alchemist's garden", "Many plants are growing here.", World.QuestByID(1), null);
         alchemistsGarden.MonsterLivingHere = MonsterByID(MONSTER_ID_RAT);
 
         Location farmhouse = new Location(LOCATION_ID_FARMHOUSE, "Farmhouse", "There is a small farmhouse, with a farmer in front.", null, null);
