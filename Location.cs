@@ -28,7 +28,13 @@ public class Location
         MonsterLivingHere = monster;
     }
 
-    public bool CheckIsNeighbor(Location location)
+
+    /// <summary>
+    /// Check if two Location objects are neighbors of each other.
+    /// </summary>
+    /// <param name="location"></param>
+    /// <returns>bool</returns>
+    public bool IsNeighbor(Location location)
     {
         return location.ID switch
         {
@@ -38,7 +44,39 @@ public class Location
             var x when x == LocationToWest?.ID => true,
             _ => false,
         };
-    }     
+    }
+
+
+    /// <summary>
+    /// Returns a list of Direction, Location pairs of non null neighbors
+    /// </summary>
+    /// <returns></returns>
+    public List<(string, Location)> GetValidNeighbors()
+    {
+        List<(string, Location)> result = [];
+
+        if (LocationToNorth is not null)
+        {
+            result.Add(("north", LocationToNorth));
+        }
+
+        if (LocationToEast is not null)
+        {
+            result.Add(("east", LocationToEast));
+        }
+
+        if (LocationToSouth is not null)
+        {
+            result.Add(("south", LocationToSouth));
+        }
+
+        if (LocationToWest is not null)
+        {
+            result.Add(("west", LocationToWest));
+        }
+
+        return result;
+    }
 
 
     public string QuestDescription()

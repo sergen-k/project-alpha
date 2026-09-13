@@ -56,8 +56,23 @@ public class Player
         // Show the updated health
         ShowHealth();
     }
-    public void MoveToLocation(Location location)
+
+
+    /// <summary>
+    /// Update the players CurrentLocation to the given <paramref name="location"/> if possible
+    /// </summary>
+    /// <param name="location"> The new <see cref="Location"/> to move the player to.</param>
+    /// <returns>
+    /// returns true if location has been changed successfully 
+    /// </returns>
+    public bool MoveToLocation(Location location)
     {
+
+        if (!CurrentLocation.IsNeighbor(location))
+        {
+            return false;
+        }
+
         CurrentLocation = location;
 
         Console.WriteLine(location.Name);
@@ -71,6 +86,8 @@ public class Player
                 CurrentQuest = location.QuestAvailableHere;
             }
         }
+
+        return true;
     }
 
     public bool AcceptQuest(Location location)
@@ -79,15 +96,7 @@ public class Player
         Console.WriteLine(location.QuestDescription());
         Console.WriteLine("Do you want to accept the quest? (y/n)");
 
-
-        string answer;
-        while (true)
-        {
-           answer = Console.ReadLine()!;
-           if (answer == "y" || answer == "n") break; 
-        }
-
-        
+        string answer = World.ChooseOption("y", "n");
 
        return  answer == "y"; 
     }

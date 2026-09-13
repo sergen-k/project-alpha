@@ -216,6 +216,21 @@ public static class World
         return option;
     }
 
+    public static string ChooseOption(List<string> options, string errorMessage = "Invalid option")
+    {
+        string option;
+        int errorCount = 0;
+        do
+        {
+            if (errorCount > 0) Console.WriteLine(errorMessage);
+            option = Console.ReadLine();
+            errorCount++;
+        } while (!options.Contains(option.ToLower()));
+        return option;
+    }
+
+
+
     // public static Continue()
     // {
     //     Console.Write("Continue");
