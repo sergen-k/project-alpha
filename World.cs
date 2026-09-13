@@ -22,19 +22,17 @@ public static class World
     public const int MONSTER_ID_GOBLIN_CHILD = 1;
     public const int MONSTER_ID_GOBLIN_WARRIOR = 2;
 
-    public const int QUEST_ID_CLEAR_ALCHEMIST_GARDEN = 1;
-    public const int QUEST_ID_CLEAR_FARMERS_FIELD = 2;
-    public const int QUEST_ID_COLLECT_SPIDER_SILK = 3;
+    public const int QUEST_ID_TEST = 1;
 
     public const int LOCATION_ID_HOME = 1;
-    public const int LOCATION_ID_TOWN_SQUARE = 2;
-    public const int LOCATION_ID_GUARD_POST = 3;
-    public const int LOCATION_ID_ALCHEMIST_HUT = 4;
-    public const int LOCATION_ID_ALCHEMISTS_GARDEN = 5;
-    public const int LOCATION_ID_FARMHOUSE = 6;
-    public const int LOCATION_ID_FARM_FIELD = 7;
-    public const int LOCATION_ID_BRIDGE = 8;
-    public const int LOCATION_ID_SPIDER_FIELD = 9;
+    public const int LOCATION_ID_LADYBUG_TOWN = 2;
+    public const int LOCATION_ID_GOBLIN_CAMP = 3;
+    public const int LOCATION_ID_ABANDONED_CASTLE = 4;
+    public const int LOCATION_ID_MUSHROOM_FIELDS = 5;
+    public const int LOCATION_ID_GIANT_FOREST = 6;
+    public const int LOCATION_ID_WITCHES_HUT = 7;
+    public const int LOCATION_ID_MURKY_SWAMP = 8;
+    public const int LOCATION_ID_LOST_GRAVEYARD = 9;
 
     public const string RESET = "\x1b[0m";
     public const string BOLD = "\x1b[1m";
@@ -79,96 +77,73 @@ public static class World
 
     public static void PopulateQuests()
     {
-        Quest clearAlchemistGarden =
+        Quest TestQuest =
             new Quest(
-                QUEST_ID_CLEAR_ALCHEMIST_GARDEN,
+                QUEST_ID_TEST,
                 "Clear the alchemist's garden",
                 "Kill rats in the alchemist's garden ");
 
 
-
-        Quest clearFarmersField =
-            new Quest(
-                QUEST_ID_CLEAR_FARMERS_FIELD,
-                "Clear the farmer's field",
-                "Kill snakes in the farmer's field");
-
-
-        Quest clearSpidersForest =
-                    new Quest(
-                        QUEST_ID_COLLECT_SPIDER_SILK,
-                        "Collect spider silk",
-                        "Kill spiders in the spider forest");
-
-
-        Quests.Add(clearAlchemistGarden);
-        Quests.Add(clearFarmersField);
-        Quests.Add(clearSpidersForest);
+        Quests.Add(TestQuest);
     }
 
     public static void PopulateLocations()
     {
         // Create each location
-        Location home = new Location(LOCATION_ID_HOME, "Home", "Your house. You really need to clean up the place.", null, null);
+        Location home = new Location(LOCATION_ID_HOME, "Home", "", null, null);
 
-        Location townSquare = new Location(LOCATION_ID_TOWN_SQUARE, "Town square", "You see a fountain.", null, null);
+        Location ladybugTown = new Location(LOCATION_ID_LADYBUG_TOWN, "Ladybug Town", "", null, null);
 
-        Location alchemistHut = new Location(LOCATION_ID_ALCHEMIST_HUT, "Alchemist's hut", "There are many strange plants on the shelves.", null, null);
-        alchemistHut.QuestAvailableHere = QuestByID(QUEST_ID_CLEAR_ALCHEMIST_GARDEN);
+        Location goblinCamp = new Location(LOCATION_ID_GOBLIN_CAMP, "Goblin Camp", "", null, null);
 
-        Location alchemistsGarden = new Location(LOCATION_ID_ALCHEMISTS_GARDEN, "Alchemist's garden", "Many plants are growing here.", World.QuestByID(1), null);
-        //alchemistsGarden.MonsterLivingHere = MonsterByID(MONSTER_ID_RAT);
+        Location abandonedCastle = new Location(LOCATION_ID_ABANDONED_CASTLE, "Abandoned Castle", "", null, null);
 
-        Location farmhouse = new Location(LOCATION_ID_FARMHOUSE, "Farmhouse", "There is a small farmhouse, with a farmer in front.", null, null);
-        farmhouse.QuestAvailableHere = QuestByID(QUEST_ID_CLEAR_FARMERS_FIELD);
+        Location mushroomFields = new Location(LOCATION_ID_MUSHROOM_FIELDS, "Mushroom Fields", "", null, null);
 
-        Location farmersField = new Location(LOCATION_ID_FARM_FIELD, "Farmer's field", "You see rows of vegetables growing here.", null, null);
-        //farmersField.MonsterLivingHere = MonsterByID(MONSTER_ID_SNAKE);
+        Location giantForest = new Location(LOCATION_ID_GIANT_FOREST, "Giant Forest", "", null, null);
 
-        Location guardPost = new Location(LOCATION_ID_GUARD_POST, "Guard post", "There is a large, tough-looking guard here.", null, null);
-
-        Location bridge = new Location(LOCATION_ID_BRIDGE, "Bridge", "A stone bridge crosses a wide river.", null, null);
-        bridge.QuestAvailableHere = QuestByID(QUEST_ID_COLLECT_SPIDER_SILK);
-
-        Location spiderField = new Location(LOCATION_ID_SPIDER_FIELD, "Forest", "You see spider webs covering covering the trees in this forest.", null, null);
-        //spiderField.MonsterLivingHere = MonsterByID(MONSTER_ID_GIANT_SPIDER);
+        Location witchesHut = new Location(LOCATION_ID_WITCHES_HUT, "Witches Hut", "", null, null);
+        
+        Location murkySwamp = new Location(LOCATION_ID_MURKY_SWAMP, "Murky Swamp", "", null, null);
+        
+        Location lostGraveyard = new Location(LOCATION_ID_LOST_GRAVEYARD, "Lost Graveyard", "", null, null);
 
         // Link the locations together
-        home.LocationToNorth = townSquare;
+        home.LocationToNorth = ladybugTown;
 
-        townSquare.LocationToNorth = alchemistHut;
-        townSquare.LocationToSouth = home;
-        townSquare.LocationToEast = guardPost;
-        townSquare.LocationToWest = farmhouse;
+        ladybugTown.LocationToNorth = murkySwamp;
+        ladybugTown.LocationToSouth = home;
+        ladybugTown.LocationToEast = goblinCamp;
+        ladybugTown.LocationToWest = mushroomFields;
 
-        farmhouse.LocationToEast = townSquare;
-        farmhouse.LocationToWest = farmersField;
+        goblinCamp.LocationToEast = ladybugTown;
+        goblinCamp.LocationToWest = abandonedCastle;
 
-        farmersField.LocationToEast = farmhouse;
+        abandonedCastle.LocationToEast = goblinCamp;
 
-        alchemistHut.LocationToSouth = townSquare;
-        alchemistHut.LocationToNorth = alchemistsGarden;
+        mushroomFields.LocationToEast = giantForest;
+        mushroomFields.LocationToWest = ladybugTown;
 
-        alchemistsGarden.LocationToSouth = alchemistHut;
+        giantForest.LocationToEast = witchesHut;
+        giantForest.LocationToWest = mushroomFields;
 
-        guardPost.LocationToEast = bridge;
-        guardPost.LocationToWest = townSquare;
+        witchesHut.LocationToWest = giantForest;
 
-        bridge.LocationToWest = guardPost;
-        bridge.LocationToEast = spiderField;
+        murkySwamp.LocationToSouth = ladybugTown;
+        murkySwamp.LocationToNorth = lostGraveyard;
 
-        spiderField.LocationToWest = bridge;
+        lostGraveyard.LocationToSouth = murkySwamp;
 
         // Add the locations to the static list
         Locations.Add(home);
-        Locations.Add(townSquare);
-        Locations.Add(guardPost);
-        Locations.Add(alchemistHut);
-        Locations.Add(alchemistsGarden);
-        Locations.Add(farmhouse);
-        Locations.Add(farmersField);
-        Locations.Add(bridge);
-        Locations.Add(spiderField);
+        Locations.Add(ladybugTown);
+        Locations.Add(goblinCamp);
+        Locations.Add(abandonedCastle);
+        Locations.Add(mushroomFields);
+        Locations.Add(giantForest);
+        Locations.Add(witchesHut);
+        Locations.Add(murkySwamp);
+        Locations.Add(lostGraveyard);
     }
 
     public static Location LocationByID(int id)
