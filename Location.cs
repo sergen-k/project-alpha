@@ -1,7 +1,3 @@
-public class Quest();
-
-public class Monster();
-
 public class Location
 {
     public int ID;
@@ -22,7 +18,8 @@ public class Location
 
     public Location? LocationToWest;
 
-    public Location(int id, string name, string description, Quest? quest, Monster? monster)
+
+    public Location(int id, string name, string description, Quest quest, Monster monster)
     {
         ID = id;
         Name = name;
@@ -41,6 +38,12 @@ public class Location
             var x when x == LocationToWest?.ID => true,
             _ => false,
         };
-    } 
+    }     
+
+
+    public string QuestDescription()
+    {
+        return Description;
+    }
 
 }

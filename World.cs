@@ -206,4 +206,19 @@ public static class World
 
         return null;
     }
+
+    public static ChooseOption(params string[] options)
+    {
+        string option;
+        do
+            option = Console.ReadLine();
+        while (!options.Contains(option.ToLower()));
+        return option;
+    }
+
+    public static Continue()
+    {
+        Console.Write("Continue");
+        Console.ReadLine();
+    }
 }
