@@ -17,22 +17,22 @@ public class Battle
 
     public void PlayersTurn()
     {
-        ConstructMenu;
+        ConstructMenu();
         Console.WriteLine("What will you do?");
         Console.WriteLine("1. Attack");
         Console.WriteLine("2. Item Bag");
         Console.WriteLine("3. Try to flee");
         string option = World.ChooseOption("1", "2", "3");
 
-        if (option == 1)
+        if (option == "1")
         {
             
         }
-        else if (option == 2)
+        else if (option == "2")
         {
             
         }
-        else if (option == 3)
+        else if (option == "3")
         {
             
         }
