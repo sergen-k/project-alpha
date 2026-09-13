@@ -43,7 +43,7 @@
         Username = Console.ReadLine()!;
         } while(!(Username.Length >= 2 && Username.Length <= 12 && Username.All(char.IsLetterOrDigit)));
         // Create player object
-        Player = new(Username);
+        Player Player = new Player(Username);
         Console.Clear();
         Console.WriteLine($"{World.YELLOW}Welcome to {World.RESET}{World.BOLD}Michelon Island Adventure.{World.RESET}{World.YELLOW} May {World.BOLD}{World.GREEN}Fortune{World.RESET}{World.YELLOW} guide you on the journey that lies ahead.{World.RESET}");
         Console.WriteLine($"{World.YELLOW}Good luck, {World.BOLD}{Username}!{World.RESET}");
