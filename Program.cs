@@ -52,7 +52,7 @@
         return "Hallo welkom bij onze game blah";
     }
 
-    public static void Stats()
+    public static void Stats(Player player)
     {
         Console.Clear();
         Console.WriteLine($"NAME: {player.Name}");

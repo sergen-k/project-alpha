@@ -207,7 +207,7 @@ public static class World
         return null;
     }
 
-    public static ChooseOption(params string[] options)
+    public static string ChooseOption(params string[] options)
     {
         string option;
         do
@@ -216,9 +216,9 @@ public static class World
         return option;
     }
 
-    public static Continue()
-    {
-        Console.Write("Continue");
-        Console.ReadLine();
-    }
+    // public static Continue()
+    // {
+    //     Console.Write("Continue");
+    //     Console.ReadLine();
+    // }
 }
