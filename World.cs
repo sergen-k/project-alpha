@@ -8,11 +8,19 @@ public static class World
     public static readonly Random RandomGenerator = new Random();
 
     public const int WEAPON_ID_RUSTY_SWORD = 1;
-    public const int WEAPON_ID_CLUB = 2;
+    public const int WEAPON_ID_BAT = 2;
+    public const int WEAPON_ID_FRAIL_BOW = 3;
+    public const int WEAPON_ID_THORNED_CLUB = 4;
+    public const int WEAPON_ID_DAGGER = 5;
+    public const int WEAPON_ID_SHINING_SWORD = 6;
+    public const int WEAPON_ID_CROSSBOW = 7;
+    public const int WEAPON_ID_BEJEWELED_BLADE = 8;
+    public const int WEAPON_ID_COMPOUND_BOW = 9;
+    public const int WEAPON_ID_DRAGON_SLAYER = 10;
 
-    public const int MONSTER_ID_RAT = 1;
-    public const int MONSTER_ID_SNAKE = 2;
-    public const int MONSTER_ID_GIANT_SPIDER = 3;
+
+    public const int MONSTER_ID_GOBLIN_CHILD = 1;
+    public const int MONSTER_ID_GOBLIN_WARRIOR = 2;
 
     public const int QUEST_ID_CLEAR_ALCHEMIST_GARDEN = 1;
     public const int QUEST_ID_CLEAR_FARMERS_FIELD = 2;
@@ -28,6 +36,18 @@ public static class World
     public const int LOCATION_ID_BRIDGE = 8;
     public const int LOCATION_ID_SPIDER_FIELD = 9;
 
+    public const string RESET = "\x1b[0m";
+    public const string BOLD = "\x1b[1m";
+    public const string ITALIC = "\x1b[3m";
+    public const string UNDERLINE = "\x1b[4m";
+    public const string DIM = "\x1b[2m";
+
+    public const string RED = "\x1b[31m";
+    public const string GREEN = "\x1b[32m";
+    public const string YELLOW = "\x1b[33m";
+    public const string BLUE = "\x1b[34m";
+    public const string GRAY = "\x1b[30m";
+
     static World()
     {
         PopulateWeapons();
@@ -39,24 +59,22 @@ public static class World
 
     public static void PopulateWeapons()
     {
-        Weapons.Add(new Weapon(WEAPON_ID_RUSTY_SWORD, "Rusty sword", 5));
-        Weapons.Add(new Weapon(WEAPON_ID_CLUB, "Club", 10));
+        Weapons.Add(new Weapon(WEAPON_ID_RUSTY_SWORD, "Rusty Sword", "Tetanus Tearer", 20));
+        Weapons.Add(new Weapon(WEAPON_ID_BAT, "Bat", "Home Run", 30));
+        Weapons.Add(new Weapon(WEAPON_ID_FRAIL_BOW, "Frail Bow", "Splinter Shot", 50));
+        Weapons.Add(new Weapon(WEAPON_ID_THORNED_CLUB, "Thorned Club", "Acupuncture", 80));
+        Weapons.Add(new Weapon(WEAPON_ID_DAGGER, "Dagger", "Veggie Cutter", 110));
+        Weapons.Add(new Weapon(WEAPON_ID_SHINING_SWORD, "", "Hack 'n Slash", 165));
+        Weapons.Add(new Weapon(WEAPON_ID_CROSSBOW, "Crossbow", "Mindblower", 270));
+        Weapons.Add(new Weapon(WEAPON_ID_BEJEWELED_BLADE, "Bejeweled Blade", "Crystal Crumble", 420));
+        Weapons.Add(new Weapon(WEAPON_ID_COMPOUND_BOW, "Compound Bow", "Arch of Precission", 777));
+        Weapons.Add(new Weapon(WEAPON_ID_DRAGON_SLAYER, "Dragon Slayer", "Power of A Thousand Suns", 999));
     }
 
     public static void PopulateMonsters()
-    {
-        Monster rat = new Monster(MONSTER_ID_RAT, "rat", 1, 3, 3);
-
-
-        Monster snake = new Monster(MONSTER_ID_SNAKE, "snake", 10, 7, 7);
-
-
-        Monster giantSpider = new Monster(MONSTER_ID_GIANT_SPIDER, "giant spider", 3, 10, 10);
-
-
-        Monsters.Add(rat);
-        Monsters.Add(snake);
-        Monsters.Add(giantSpider);
+    { // Damage, HP, Gold drops, LootboxRarity, LootboxChance
+        Monsters.Add(new Monster(MONSTER_ID_GOBLIN_CHILD, "Goblin Child", 5, 50, 10, "Common", 25));
+        Monsters.Add(new Monster(MONSTER_ID_GOBLIN_WARRIOR, "Goblin Warrior ", 8, 75, 15, "Common", 40));
     }
 
     public static void PopulateQuests()
@@ -99,13 +117,13 @@ public static class World
         alchemistHut.QuestAvailableHere = QuestByID(QUEST_ID_CLEAR_ALCHEMIST_GARDEN);
 
         Location alchemistsGarden = new Location(LOCATION_ID_ALCHEMISTS_GARDEN, "Alchemist's garden", "Many plants are growing here.", World.QuestByID(1), null);
-        alchemistsGarden.MonsterLivingHere = MonsterByID(MONSTER_ID_RAT);
+        //alchemistsGarden.MonsterLivingHere = MonsterByID(MONSTER_ID_RAT);
 
         Location farmhouse = new Location(LOCATION_ID_FARMHOUSE, "Farmhouse", "There is a small farmhouse, with a farmer in front.", null, null);
         farmhouse.QuestAvailableHere = QuestByID(QUEST_ID_CLEAR_FARMERS_FIELD);
 
         Location farmersField = new Location(LOCATION_ID_FARM_FIELD, "Farmer's field", "You see rows of vegetables growing here.", null, null);
-        farmersField.MonsterLivingHere = MonsterByID(MONSTER_ID_SNAKE);
+        //farmersField.MonsterLivingHere = MonsterByID(MONSTER_ID_SNAKE);
 
         Location guardPost = new Location(LOCATION_ID_GUARD_POST, "Guard post", "There is a large, tough-looking guard here.", null, null);
 
@@ -113,7 +131,7 @@ public static class World
         bridge.QuestAvailableHere = QuestByID(QUEST_ID_COLLECT_SPIDER_SILK);
 
         Location spiderField = new Location(LOCATION_ID_SPIDER_FIELD, "Forest", "You see spider webs covering covering the trees in this forest.", null, null);
-        spiderField.MonsterLivingHere = MonsterByID(MONSTER_ID_GIANT_SPIDER);
+        //spiderField.MonsterLivingHere = MonsterByID(MONSTER_ID_GIANT_SPIDER);
 
         // Link the locations together
         home.LocationToNorth = townSquare;
@@ -207,18 +225,21 @@ public static class World
         return null;
     }
 
-    public static ChooseOption(params string[] options)
+    // Use this method if u want the user to be able to pick between options
+    // Keeps asking until the loop receives valid input
+    public static string ChooseOption(params string[] options)
     {
         string option;
         do
-            option = Console.ReadLine();
+            option = Console.ReadLine()!;
         while (!options.Contains(option.ToLower()));
         return option;
-    }
+    }   
 
-    public static Continue()
+    // Use this method if u want "Continue" printed
+    public static void Continue()
     {
-        Console.Write("Continue");
+        Console.Write($"{BOLD}{UNDERLINE}Continue{RESET} ");
         Console.ReadLine();
     }
 }

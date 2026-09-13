@@ -2,17 +2,17 @@ public class Player
 {
     public string Name;
     public int CurrentHitPoints;
-    public int MaximumHitPoints;
-    public Weapon CurrentWeapon;
-    public Location CurrentLocation;
+    public int MaximumHitPoints = 100;
+    public int Gold = 0;
+    public Weapon CurrentWeapon = World.WeaponByID(1);
+    public Location CurrentLocation = World.LocationByID(1);
 
     public Quest? CurrentQuest;
 
-    public Player(string name, int maximumHitPoints)
+    public Player(string name)
     {
         Name = name;
-        MaximumHitPoints = maximumHitPoints;
-        CurrentHitPoints = maximumHitPoints;
+        CurrentHitPoints = MaximumHitPoints;
     }
 
     public void MoveToLocation(Location location)
