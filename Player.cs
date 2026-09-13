@@ -6,6 +6,7 @@ public class Player
     public int Gold = 0;
     public Weapon CurrentWeapon = World.WeaponByID(1);
     public Location CurrentLocation = World.LocationByID(1);
+    public bool IsFighting;
 
     public Quest? CurrentQuest;
 
@@ -14,7 +15,46 @@ public class Player
         Name = name;
         CurrentHitPoints = MaximumHitPoints;
     }
+    public void ShowHealth()
+    {
+        Console.WriteLine($"Health: {CurrentHitPoints}/{MaximumHitPoints}");
+    }
 
+        public void TakeDamage(int damage)
+    {
+        //Reduce the player's health
+        CurrentHitPoints -= damage;
+
+        // Health cannot go below 0
+        if (CurrentHitPoints < 0)
+        {
+            CurrentHitPoints = 0;
+        }
+
+        // Show the updated health
+        ShowHealth();
+    }
+
+    public bool IsDead()
+    {
+        // Check if the player has no health left
+        return CurrentHitPoints == 0;
+    }
+
+    public void Heal(int amount)
+    {
+        // Increase the player's health
+        CurrentHitPoints += amount;
+
+        // Health cannot go above maximum health
+        if (CurrentHitPoints > MaximumHitPoints)
+        {
+            CurrentHitPoints = MaximumHitPoints;
+        }
+
+        // Show the updated health
+        ShowHealth();
+    }
     public void MoveToLocation(Location location)
     {
         CurrentLocation = location;

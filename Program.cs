@@ -13,6 +13,13 @@
             Battle.StartBattle(World.MonsterByID(1));
             Refresh();
             Battle.StartBattle(World.MonsterByID(2));
+
+            //TODO is player in inventory 
+             // mohhamed en jasarat
+
+
+            //TODO is player in location
+             // rik en yessin zijn code gaan hier
         }
 
     }
