@@ -27,11 +27,11 @@ public class Battle
             battle.PlayersTurn();
             if (battle.FinishedBattle)
             {
+                Program.Player.PotionsActive.Clear();
                 break;
             }
             battle.ConstructMenu();
             battle.MonstersTurn();
-            // TODO: Add a break for when a player is dead
         }
 
     }
@@ -55,8 +55,8 @@ public class Battle
         {
             Console.WriteLine($"{World.BLUE}What will you do?{World.RESET}");
             Console.WriteLine($"{World.BLUE}1.{World.RESET}{World.BOLD} Attack:{World.RESET}");
-            Console.WriteLine($"   {World.DIM}- {Player.CurrentWeapon.MoveName} {World.RESET}{World.RED}({Player.CurrentWeapon.MaximumDamage} DMG){World.RESET}");
-            Console.WriteLine($"{World.BLUE}2.{World.RESET} Go back");
+            Console.WriteLine($"   {World.DIM}- {Player.CurrentWeapon.MoveName} {World.RESET}{World.DIM}{World.RED}({Player.CurrentWeapon.MaximumDamage} DMG){World.RESET}");
+            Console.WriteLine($"{World.BLUE}2. {World.RED}RETURN{World.RESET}");
             if (World.ChooseOption("1", "2") == "2")
             {
                 goto back;
@@ -66,12 +66,17 @@ public class Battle
                 int hit_chance = World.RandomGenerator.Next(1,101);
                 // The player randomly does between 80-120% of their weapons damage
                 PlayersDamage = (int)(Player.CurrentWeapon.MaximumDamage * World.RandomGenerator.Next(80,120) * 0.01);
+                if (Program.Player.PotionsActive.Any(p => p.ID == 3))
+                    PlayersDamage += 50;
+                if (Program.Player.PotionsActive.Any(p => p.ID == 4))
+                    PlayersDamage *= 2;
                 if (hit_chance > 90) // 10% chance to miss, no damage
                 {
+                    PlayersDamage = 0;
                     ConstructMenu();
                     Console.WriteLine($"{World.GRAY}MISS!{World.RESET} You did {World.RED}0 DMG{World.RESET}");
                 } 
-                else if (hit_chance > 80) // 10% chance to crit, double damage
+                else if (hit_chance > 50 && Program.Player.PotionsActive.Any(p => p.ID == 5) || hit_chance > 80) // 10% chance to crit, double damage
                 {
                     PlayersDamage *= 2;
                     if (PlayersDamage > Monster.CurrentHitPoints){PlayersDamage = Monster.CurrentHitPoints;}
@@ -110,6 +115,7 @@ public class Battle
                         Console.Write($"{World.UNDERLINE}Reach for it?{World.RESET}");
                         Console.ReadLine(); 
                         ConstructMenu();
+                        Console.WriteLine("This feature has not been implemented yet");
                         // TODO: Add weapon obtainment to inventory
                         World.Continue();
                     }
@@ -119,8 +125,8 @@ public class Battle
         }
         else if (option == "2")
         {
-            goto back; // Temporary
-            // TODO: Add an item selection menu
+            Player.Inventory.ViewInventory(true);
+            goto back;
         }
         else if (option == "3")
         {
@@ -143,8 +149,7 @@ public class Battle
 
     public void MonstersTurn()
     {
-        // TODO: Add so that monsters cant overkill
-        MonstersDamage = (int)(Monster.MaximumDamage * World.RandomGenerator.Next(80,120) * 0.01);
+        MonstersDamage = (int)(Monster.MaximumDamage * World.RandomGenerator.Next(80,120) * 0.01 * (1 - Program.Player.CurrentArmour.Defense * 0.01));
         if (World.RandomGenerator.Next(100) > 73)
         {
             MonstersDamage = 0;
@@ -152,21 +157,15 @@ public class Battle
             Console.WriteLine($"{World.BOLD}{Monster.Name}{World.RESET} {World.GRAY}MISSED{World.RESET} and did {World.RED}0 DMG{World.RESET}");
         } else
         {
-            Player.TakeDamage(MonstersDamage);
+            MonstersDamage = Program.Player.TakeDamage(MonstersDamage);
             ConstructMenu();
             Console.WriteLine($"{World.BOLD}{Monster.Name}{World.RESET} {World.GREEN}HIT{World.RESET} and did {World.RED}{MonstersDamage} DMG!{World.RESET}");
         }
-        // TODO: Add death sequence
-        if (Player.IsDead())
-        {
-            Console.WriteLine($"{World.RED}You have died. Game Over!{World.RESET}");
-
-            FinishedBattle = true;
-            Program.game_running = false;
-
-            World.Continue();
-        }
         MonstersDamage = 0; 
+        if (Program.Player.IsDead())
+        {
+            Console.WriteLine($"{World.RED}u DEAD mah boi... Aint no second chances for u. Time to despawn{World.RESET}");
+        }
         World.Continue();
     }
 
