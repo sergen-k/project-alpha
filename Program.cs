@@ -55,6 +55,7 @@
     {
         Console.Clear();
         Console.WriteLine($"{World.GREEN}NAME:{World.RESET} {Player.Name}");
+        Console.WriteLine($"{World.GREEN}HEALTH:{World.RESET} {Player.CurrentHitPoints}/{Player.MaximumHitPoints}");
         Console.WriteLine($"{World.GREEN}WEAPON:{World.RESET} {Player.CurrentWeapon.Name}");
         Console.WriteLine($"{World.GREEN}GOLD:{World.RESET} {Player.Gold}");
         // TODO: Display Optional Armour
