@@ -32,19 +32,6 @@
 
     }
 
-
-    public static void SetupGame(Player player)
-    {
-        // start player in home
-        player.CurrentLocation = World.LocationByID(1);
-        player.CurrentHitPoints  = 100;
-
-        // give player rusty sword
-        player.CurrentWeapon = World.WeaponByID(1);
-    }
-
-
-
     public static void SelectLocation(Player player)
     {
         Console.WriteLine($"Je bevindt je nu in de locatie {player.CurrentLocation.Name}");
@@ -98,6 +85,8 @@
         } while(!(Username.Length >= 2 && Username.Length <= 12 && Username.All(char.IsLetterOrDigit)));
         // Create player object
         Player = new Player(Username);
+
+
         Console.Clear();
         Console.WriteLine($"{World.YELLOW}Welcome to {World.RESET}{World.BOLD}Michelon Island Adventure.{World.RESET}{World.YELLOW} May {World.BOLD}{World.GREEN}Fortune{World.RESET}{World.YELLOW} guide you on the journey that lies ahead.{World.RESET}");
         Console.WriteLine($"{World.YELLOW}Good luck, {World.BOLD}{Username}!{World.RESET}");
