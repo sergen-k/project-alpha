@@ -26,8 +26,6 @@
             {
                 SelectLocation(Player);
             }
-        
-
         }
 
     }
