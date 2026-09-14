@@ -9,12 +9,27 @@
         string gameState = "";
         while (game_running)
         {
-            // Some battles for testing purposes
             // Eventually replaced with the main game loop
+
+            // Sergens testing grounds ⌄⌄⌄
             Refresh();
-            Battle.StartBattle(World.MonsterByID(1));
+            Player.Inventory.AddPotion(World.PotionByID(World.POTION_ID_HEAL_POTION));
+            Player.Inventory.AddPotion(World.PotionByID(World.POTION_ID_MEGA_HEAL_POTION));
+            Player.Inventory.AddPotion(World.PotionByID(World.POTION_ID_STRONG_POTION));
+            Player.Inventory.AddPotion(World.PotionByID(World.POTION_ID_MEGA_STRONG_POTION));
+            Player.Inventory.AddPotion(World.PotionByID(World.POTION_ID_SURPRISE_POTION));
+            Player.Inventory.AddPotion(World.PotionByID(World.POTION_ID_CRITICAL_POTION));
+            Player.Inventory.AddArmour(World.ArmourByID(World.ARMOUR_ID_LEATHER));
+            Player.Inventory.AddArmour(World.ArmourByID(World.ARMOUR_ID_DRAGONBORN));
+            Player.Inventory.AddWeapon(World.WeaponByID(World.WEAPON_ID_THORNED_CLUB));
+            Player.Inventory.AddWeapon(World.WeaponByID(World.WEAPON_ID_BEJEWELED_BLADE));
+            Battle.StartBattle(World.MonsterByID(World.MONSTER_ID_GOBLIN_CHILD));
             Refresh();
-            Battle.StartBattle(World.MonsterByID(2));
+            Console.WriteLine("So who you gonna call? The martini police?");
+            Console.WriteLine("Welcome to the intermission. (this is only for testing purposes)");
+            World.Continue();
+            Player.Inventory.ViewInventory(false);
+            // Sergens testing grounds ^^^
 
             //TODO is player in inventory 
              // mohhamed en jasarat
@@ -51,16 +66,10 @@
         Console.WriteLine("fill in n/s/e/w select a location:");
 
         // let the user select and fetch Location based on first char of direction.
-        string selection = World.ChooseOption(validDirs, "Invalid location");
-        (_, Location selectedLoc)= validDirsLocations.Find( x => x.Item1[0].ToString() == selection );
+        //string selection = World.ChooseOption(validDirs, "Invalid location");
+        //(_, Location selectedLoc)= validDirsLocations.Find( x => x.Item1[0].ToString() == selection );
 
-        player.MoveToLocation(selectedLoc);
-    }
-
-
-    public static string IntroductionText()
-    {
-        return "Hallo welkom bij onze game blah";
+        //player.MoveToLocation(selectedLoc);
     }
 
     public static void Introduction()
@@ -87,7 +96,7 @@
 
         Console.Clear();
         Console.WriteLine($"{World.YELLOW}Welcome to {World.RESET}{World.BOLD}Michelon Island Adventure.{World.RESET}{World.YELLOW} May {World.BOLD}{World.GREEN}Fortune{World.RESET}{World.YELLOW} guide you on the journey that lies ahead.{World.RESET}");
-        Console.WriteLine($"{World.YELLOW}Good luck, {World.BOLD}{Username}!{World.RESET}");
+        Console.WriteLine($"{World.YELLOW}Good luck, {World.RESET}{World.BOLD}{Username}!{World.RESET}");
         World.Continue();
     }
 
@@ -96,12 +105,19 @@
     {
         Console.Clear();
         Console.WriteLine($"{World.GREEN}NAME:{World.RESET} {Player.Name}");
-        Console.WriteLine($"{World.GREEN}HEALTH:{World.RESET} {Player.CurrentHitPoints}/{Player.MaximumHitPoints}");
-        Console.WriteLine($"{World.GREEN}WEAPON:{World.RESET} {Player.CurrentWeapon.Name}");
+        Console.WriteLine($"{World.GREEN}HP:{World.RESET} {Player.CurrentHitPoints}/{Player.MaximumHitPoints}");
+        Console.WriteLine($"{World.GREEN}WEAPON:{World.RESET} {Player.CurrentWeapon.Name} - {World.BOLD}{Player.CurrentWeapon.Rarity}{World.RESET} {World.DIM}{World.RED}({Player.CurrentWeapon.MaximumDamage} DMG){World.RESET}");
+        Console.WriteLine($"{World.GREEN}ARMOUR:{World.RESET} {Player.CurrentArmour.Name} - {World.BOLD}{Player.CurrentArmour.Rarity}{World.RESET} {World.DIM}{World.BLUE}({Player.CurrentArmour.Defense}% DEF){World.RESET}");
         Console.WriteLine($"{World.GREEN}GOLD:{World.RESET} {Player.Gold}");
-        // TODO: Display Optional Armour
         // TODO: Display Optional Quest
         Console.WriteLine($"{World.GREEN}LOCATION:{World.RESET} {Player.CurrentLocation.Name}");
+        if (Player.PotionsActive.Count > 0)
+        {
+            Console.WriteLine();
+            Console.WriteLine($"{World.RED}ACTIVE POTIONS:{World.RESET}");
+            foreach(Potion potion in Player.PotionsActive)
+                Console.WriteLine($" - {potion.Name} {World.RED}({potion.PotionDesc}){World.RESET} {World.GREEN}ACTIVE{World.RESET}");
+        }
         Console.WriteLine($"{World.GREEN}__________________________________________{World.RESET}");
         Console.WriteLine();
     }
