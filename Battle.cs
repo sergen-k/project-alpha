@@ -152,11 +152,20 @@ public class Battle
             Console.WriteLine($"{World.BOLD}{Monster.Name}{World.RESET} {World.GRAY}MISSED{World.RESET} and did {World.RED}0 DMG{World.RESET}");
         } else
         {
-            Player.CurrentHitPoints -= MonstersDamage;
+            Player.TakeDamage(MonstersDamage);
             ConstructMenu();
             Console.WriteLine($"{World.BOLD}{Monster.Name}{World.RESET} {World.GREEN}HIT{World.RESET} and did {World.RED}{MonstersDamage} DMG!{World.RESET}");
         }
         // TODO: Add death sequence
+        if (Player.IsDead())
+        {
+            Console.WriteLine($"{World.RED}You have died. Game Over!{World.RESET}");
+
+            FinishedBattle = true;
+            Program.game_running = false;
+
+            World.Continue();
+        }
         MonstersDamage = 0; 
         World.Continue();
     }
