@@ -170,13 +170,15 @@ public class InventoryManager
         if (usedPotion.ID == 1) // for heal potion
         { // adds back hp
             Console.WriteLine($"You used a {World.YELLOW}{usedPotion.Name}!{World.RESET}");
-            Console.WriteLine($"{World.RED}+{Program.Player.Heal(50)} HP{World.RESET}");
+            int healed = Program.Player.Heal(usedPotion.HealAmount);
+            Console.WriteLine($"{World.RED}+{healed} HP{World.RESET}");
             World.Continue();
         }
         else if (usedPotion.ID == 2) // for mega heal potion
         { // adds back significant hp
             Console.WriteLine($"You used a {World.YELLOW}{usedPotion.Name}!{World.RESET}");
-            Console.WriteLine($"{World.RED}+{Program.Player.Heal(200)} HP{World.RESET}");
+            int healed = Program.Player.Heal(usedPotion.HealAmount);
+            Console.WriteLine($"{World.RED}+{healed} HP{World.RESET}");
             World.Continue();
             
         }
@@ -186,12 +188,14 @@ public class InventoryManager
             if (World.RandomGenerator.Next(0,10) < 5)
             { // 50% chance to restore all hp
                 Console.WriteLine($"{World.GREEN}FORTUNE!{World.RED} Your HP has been set to 100%!");
-                Console.WriteLine($"{World.RED}+{Program.Player.Heal(1000000)}HP{World.RESET}");
+                int healed = Program.Player.Heal(Program.Player.MaximumHitPoints);
+                Console.WriteLine($"{World.RED}+{healed} HP{World.RESET}");
             }
             else
             { // 50% chance to half your hp
                 Console.WriteLine($"{World.RED}Disaster...{World.RESET} Your HP has been halved...");
-                Console.WriteLine($"{World.RED}-{Program.Player.TakeDamage(Program.Player.CurrentHitPoints/2)} HP{World.RESET}");
+                int damage = Program.Player.CurrentHitPoints / 2;
+                Console.WriteLine($"{World.RED}-{Program.Player.TakeDamage(damage)} HP{World.RESET}");
             }
             World.Continue();
         } // Passive potions. Only usable once per battle
