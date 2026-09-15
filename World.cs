@@ -121,7 +121,9 @@ public static class World
             new Quest(
                 QUEST_ID_TEST,
                 "Clear the alchemist's garden",
-                "Kill rats in the alchemist's garden ");
+                "Kill golbins in the goblin camp", 
+                World.LocationByID(3)
+                );
 
 
         Quests.Add(TestQuest);
@@ -132,7 +134,7 @@ public static class World
         // Create each location
         Location home = new Location(LOCATION_ID_HOME, "Home", "", null, null);
 
-        Location ladybugTown = new Location(LOCATION_ID_LADYBUG_TOWN, "Ladybug Town", "", null, null);
+        Location ladybugTown = new Location(LOCATION_ID_LADYBUG_TOWN, "Ladybug Town", "", World.QuestByID(1), null);
 
         Location goblinCamp = new Location(LOCATION_ID_GOBLIN_CAMP, "Goblin Camp", "", null, null);
 
@@ -274,6 +276,28 @@ public static class World
         while (!options.Contains(option.ToLower()));
         return option;
     }   
+
+    public static string ChooseOption(List<string> options, string errorMessage)
+    {
+        string option;
+        int errorCount = 0;
+       
+        do
+        {
+            if (errorCount >0 )
+            {
+                Console.WriteLine(errorMessage);
+            }
+
+
+            option = Console.ReadLine()!;
+            errorCount++;
+        }
+        while (!options.Contains(option.ToLower()));
+        return option;
+    }   
+
+
 
     // Use this method if u want "Continue" printed
     public static void Continue()

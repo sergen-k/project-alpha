@@ -15,9 +15,9 @@ public class Quest
 
     public string description;
 
-    public int RelevantLocationId;
+    public Location RelevantLocationId;
 
-    public Quest(int id, string name, string description, int targetLocation)
+    public Quest(int id, string name, string description,  Location targetLocation)
     {
         this.ID = id;
         this.name = name;

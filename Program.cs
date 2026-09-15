@@ -6,30 +6,11 @@
     {  
         Introduction();
         
-        string gameState = "";
+        string gameState = "exploring";
         while (game_running)
         {
             // Eventually replaced with the main game loop
 
-            // Sergens testing grounds ⌄⌄⌄
-            Refresh();
-            Player.Inventory.AddPotion(World.PotionByID(World.POTION_ID_HEAL_POTION));
-            Player.Inventory.AddPotion(World.PotionByID(World.POTION_ID_MEGA_HEAL_POTION));
-            Player.Inventory.AddPotion(World.PotionByID(World.POTION_ID_STRONG_POTION));
-            Player.Inventory.AddPotion(World.PotionByID(World.POTION_ID_MEGA_STRONG_POTION));
-            Player.Inventory.AddPotion(World.PotionByID(World.POTION_ID_SURPRISE_POTION));
-            Player.Inventory.AddPotion(World.PotionByID(World.POTION_ID_CRITICAL_POTION));
-            Player.Inventory.AddArmour(World.ArmourByID(World.ARMOUR_ID_LEATHER));
-            Player.Inventory.AddArmour(World.ArmourByID(World.ARMOUR_ID_DRAGONBORN));
-            Player.Inventory.AddWeapon(World.WeaponByID(World.WEAPON_ID_THORNED_CLUB));
-            Player.Inventory.AddWeapon(World.WeaponByID(World.WEAPON_ID_BEJEWELED_BLADE));
-            Battle.StartBattle(World.MonsterByID(World.MONSTER_ID_GOBLIN_CHILD));
-            Refresh();
-            Console.WriteLine("So who you gonna call? The martini police?");
-            Console.WriteLine("Welcome to the intermission. (this is only for testing purposes)");
-            World.Continue();
-            Player.Inventory.ViewInventory(false);
-            // Sergens testing grounds ^^^
 
             //TODO is player in inventory 
              // mohhamed en jasarat
@@ -41,6 +22,9 @@
             {
                 SelectLocation(Player);
             }
+
+
+            Refresh();
         }
 
     }
@@ -66,10 +50,10 @@
         Console.WriteLine("fill in n/s/e/w select a location:");
 
         // let the user select and fetch Location based on first char of direction.
-        //string selection = World.ChooseOption(validDirs, "Invalid location");
-        //(_, Location selectedLoc)= validDirsLocations.Find( x => x.Item1[0].ToString() == selection );
+        string selection = World.ChooseOption(validDirs, "Invalid location");
+        (_, Location selectedLoc)= validDirsLocations.Find( x => x.Item1[0].ToString() == selection );
 
-        //player.MoveToLocation(selectedLoc);
+        player.MoveToLocation(selectedLoc);
     }
 
     public static void Introduction()
