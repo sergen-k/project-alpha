@@ -1,3 +1,12 @@
+
+public enum QuestStatus
+{
+    pending = 0,
+    accepted = 1,
+    declined = 2,
+    finished = 3
+}
+
 public class Quest
 {
     public int ID;
@@ -6,55 +15,51 @@ public class Quest
 
     public string description;
 
-    public enum quest_status
-    {
-        pending,
-        accepted,
-        declined,
-        finished
-    } 
+    public int RelevantLocationId;
 
-    public quest_status status;
-
-    public Quest(int id,string name, string description)
+    public Quest(int id, string name, string description, int targetLocation)
     {
         this.ID = id;
         this.name = name;
         this.description = description;
+        RelevantLocationId = targetLocation;
     }
 
 
-    public quest_status AcceptOrDenyQuest()
+    public int AcceptOrDenyQuest()
     {
-        Console.WriteLine("Do u wish to accept this quest");
+        Console.WriteLine(description);
+        Console.WriteLine($"Do u wish to accept this quest: {name}?");
         Console.WriteLine("Y/N");
+
+
         string answer = Console.ReadLine().ToLower();
 
-         if (answer == "y")
+        if (answer == "y")
         {
-            return status = quest_status.accepted;
+            return (int)QuestStatus.accepted;
         }
 
-        else if(answer == "n")
+        else if (answer == "n")
         {
-            return status = quest_status.declined;
+            return (int)QuestStatus.declined;
         }
 
         else
         {
-              Console.WriteLine("please accept or deny a quest");
-              return status = quest_status.pending;
+            Console.WriteLine("please accept or deny a quest");
+            return (int)QuestStatus.pending;
         }
 
     }
 
 
 
-    public quest_status FinishQuest()
+    public int FinishQuest()
     {
         Console.WriteLine("u have completed the quest!");
-        return status = quest_status.finished;
+        return (int)QuestStatus.finished;
 
     }
-    
+
 }
