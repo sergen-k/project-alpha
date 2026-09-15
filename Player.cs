@@ -4,9 +4,12 @@ public class Player
     public int CurrentHitPoints;
     public int MaximumHitPoints = 100;
     public int Gold = 0;
-    public Weapon CurrentWeapon = World.WeaponByID(1);
-    public Location CurrentLocation = World.LocationByID(1);
+    public Weapon CurrentWeapon = World.WeaponByID(World.WEAPON_ID_RUSTY_SWORD);
+    public Armour CurrentArmour = World.ArmourByID(World.ARMOUR_ID_RAGS);
+    public Location CurrentLocation = World.LocationByID(World.LOCATION_ID_HOME);
     public bool IsFighting;
+    public InventoryManager Inventory = new();
+    public List<Potion> PotionsActive = new();
 
     public Quest? CurrentQuest;
 
@@ -15,24 +18,19 @@ public class Player
         Name = name;
         CurrentHitPoints = MaximumHitPoints;
     }
-    public void ShowHealth()
-    {
-        Console.WriteLine($"Health: {CurrentHitPoints}/{MaximumHitPoints}");
-    }
 
-        public void TakeDamage(int damage)
+    public int TakeDamage(int damage)
     {
         //Reduce the player's health
         CurrentHitPoints -= damage;
-
+        int return_health = damage;
         // Health cannot go below 0
         if (CurrentHitPoints < 0)
         {
+            return_health = damage + CurrentHitPoints;
             CurrentHitPoints = 0;
         }
-
-        // Show the updated health
-        ShowHealth();
+        return return_health;
     }
 
     public bool IsDead()
@@ -41,19 +39,18 @@ public class Player
         return CurrentHitPoints == 0;
     }
 
-    public void Heal(int amount)
+    public int Heal(int amount)
     {
         // Increase the player's health
         CurrentHitPoints += amount;
-
+        int return_health = amount;
         // Health cannot go above maximum health
         if (CurrentHitPoints > MaximumHitPoints)
         {
+            return_health = amount - (CurrentHitPoints - MaximumHitPoints);
             CurrentHitPoints = MaximumHitPoints;
         }
-
-        // Show the updated health
-        ShowHealth();
+        return return_health;
     }
 
 

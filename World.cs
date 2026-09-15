@@ -3,6 +3,8 @@ public static class World
 
     public static readonly List<Weapon> Weapons = new List<Weapon>();
     public static readonly List<Monster> Monsters = new List<Monster>();
+    public static readonly List<Armour> Armours = new List<Armour>();
+    public static readonly List<Potion> Potions = new List<Potion>();
     public static readonly List<Quest> Quests = new List<Quest>();
     public static readonly List<Location> Locations = new List<Location>();
     public static readonly Random RandomGenerator = new Random();
@@ -17,6 +19,22 @@ public static class World
     public const int WEAPON_ID_BEJEWELED_BLADE = 8;
     public const int WEAPON_ID_COMPOUND_BOW = 9;
     public const int WEAPON_ID_DRAGON_SLAYER = 10;
+
+    public const int ARMOUR_ID_RAGS = 1;
+    public const int ARMOUR_ID_LEATHER = 2;
+    public const int ARMOUR_ID_CHAINMAIL = 3;
+    public const int ARMOUR_ID_GILDED = 4;
+    public const int ARMOUR_ID_STEEL = 5;
+    public const int ARMOUR_ID_DRAGONBORN = 6;
+    
+
+    public const int POTION_ID_HEAL_POTION = 1;
+    public const int POTION_ID_MEGA_HEAL_POTION = 2;
+    public const int POTION_ID_STRONG_POTION = 3;
+    public const int POTION_ID_MEGA_STRONG_POTION = 4;
+    public const int POTION_ID_CRITICAL_POTION = 5;
+    public const int POTION_ID_SURPRISE_POTION = 6;
+
 
 
     public const int MONSTER_ID_GOBLIN_CHILD = 1;
@@ -49,6 +67,8 @@ public static class World
     static World()
     {
         PopulateWeapons();
+        PopulateArmour();
+        PopulatePotions();
         PopulateMonsters();
         PopulateQuests();
         PopulateLocations();
@@ -68,6 +88,26 @@ public static class World
         Weapons.Add(new Weapon(WEAPON_ID_COMPOUND_BOW, "Compound Bow", "Arch of Precission", 777));
         Weapons.Add(new Weapon(WEAPON_ID_DRAGON_SLAYER, "Dragon Slayer", "Power of A Thousand Suns", 999));
     }
+    public static void PopulateArmour()
+    {
+        Armours.Add(new Armour(ARMOUR_ID_RAGS, "Rags", 0));
+        Armours.Add(new Armour(ARMOUR_ID_LEATHER, "Leather", 38));
+        Armours.Add(new Armour(ARMOUR_ID_CHAINMAIL, "Chainmail", 61));
+        Armours.Add(new Armour(ARMOUR_ID_GILDED, "Gilded", 83));
+        Armours.Add(new Armour(ARMOUR_ID_STEEL, "Steel", 90));
+        Armours.Add(new Armour(ARMOUR_ID_DRAGONBORN, "Dragonborn", 96));
+    }
+
+    public static void PopulatePotions()
+    {
+        Potions.Add(new Potion(POTION_ID_HEAL_POTION, "Heal Potion", "+10 HP", $"{BLUE}INSTANT{RESET}", 10));
+        Potions.Add(new Potion(POTION_ID_MEGA_HEAL_POTION, "Mega Heal Potion", "+20 HP", $"{BLUE}INSTANT{RESET}", 20));
+        Potions.Add(new Potion(POTION_ID_STRONG_POTION, "Strong Potion", "+50 DMG", $"{RED}PASSIVE{RESET}", 0));
+        Potions.Add(new Potion(POTION_ID_MEGA_STRONG_POTION, "Mega Strong Potion", "x2 DMG", $"{RED}PASSIVE{RESET}", 0));
+        Potions.Add(new Potion(POTION_ID_CRITICAL_POTION, "Critical Potion", "50% Crit", $"{RED}PASSIVE{RESET}", 0));
+        Potions.Add(new Potion(POTION_ID_SURPRISE_POTION, "Surprise Potion", "May luck be on your side.", $"{BLUE}INSTANT{RESET}", 0));
+    }
+        
 
     public static void PopulateMonsters()
     { // Damage, HP, Gold drops, LootboxRarity, LootboxChance
@@ -161,18 +201,42 @@ public static class World
 
     public static Weapon WeaponByID(int id)
     {
-        foreach (Weapon item in Weapons)
+        foreach (Weapon weapon in Weapons)
         {
-            if (item.ID == id)
+            if (weapon.ID == id)
             {
-                return item;
+                return weapon;
             }
         }
 
         return null;
     }
 
+    public static Potion PotionByID(int id)
+    {
+        foreach (Potion potion in Potions)
+        {
+            if (potion.ID == id)
+            {
+                return potion;
+            }
+        }
 
+        return null;
+    }
+
+    public static Armour ArmourByID(int id)
+    {
+        foreach (Armour armour in Armours)
+        {
+            if (armour.ID == id)
+            {
+                return armour;
+            }
+        }
+
+        return null;
+    }
 
     public static Monster MonsterByID(int id)
     {
@@ -210,21 +274,6 @@ public static class World
         while (!options.Contains(option.ToLower()));
         return option;
     }   
-
-    public static string ChooseOption(List<string> options, string errorMessage = "Invalid option")
-    {
-        string option;
-        int errorCount = 0;
-        do
-        {
-            if (errorCount > 0) Console.WriteLine(errorMessage);
-            option = Console.ReadLine();
-            errorCount++;
-        } while (!options.Contains(option.ToLower()));
-        return option;
-    }
-
-
 
     // Use this method if u want "Continue" printed
     public static void Continue()
