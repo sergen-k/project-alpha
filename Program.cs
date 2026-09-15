@@ -3,17 +3,26 @@
     public static Player Player;
     public static bool game_running = true;
     public static void Main(string[] args)
-    {  
+    {
         Introduction();
-        
+
         string gameState = "exploring";
         while (game_running)
         {
             // Eventually replaced with the main game loop
 
+            if (Player?.CurrentQuest is not null &&
+            Player.CurrentQuest.RelevantLocationID == Player.CurrentLocation.ID
+            && Player.CurrentQuest.status == QuestStatus.accepted
+            )
+            {
+                Monster monster = Player.CurrentLocation.MonsterLivingHere!;
+                Battle.StartBattle(monster);
+            }
+
 
             //TODO is player in inventory 
-             // mohhamed en jasarat
+            // mohhamed en jasarat
 
 
             //TODO is player in location
@@ -38,20 +47,20 @@
         List<(string, Location)> validDirsLocations = player.CurrentLocation.GetValidNeighbors();
 
         // for user validation
-        List<string> validDirs= [];
+        List<string> validDirs = [];
 
         // Print valid locations
         foreach ((string dir, Location loc) in validDirsLocations)
         {
-           Console.WriteLine($"{dir}: {loc.Name}");
-           validDirs.Add(dir[0].ToString().ToLower());
+            Console.WriteLine($"{dir}: {loc.Name}");
+            validDirs.Add(dir[0].ToString().ToLower());
         }
 
         Console.WriteLine("fill in n/s/e/w select a location:");
 
         // let the user select and fetch Location based on first char of direction.
         string selection = World.ChooseOption(validDirs, "Invalid location");
-        (_, Location selectedLoc)= validDirsLocations.Find( x => x.Item1[0].ToString() == selection );
+        (_, Location selectedLoc) = validDirsLocations.Find(x => x.Item1[0].ToString() == selection);
 
         player.MoveToLocation(selectedLoc);
     }
@@ -68,12 +77,12 @@
         // Do-while loop until user inputs correct Username
         do
         {
-        Console.Clear();
-        Console.WriteLine($"{World.YELLOW}{World.BOLD}What is thy name, {World.GREEN}Adventurer{World.RESET}");
-        Console.WriteLine($"{World.DIM}- 2-12 Characters");
-        Console.WriteLine($"{World.DIM}- Only letters/numbers{World.RESET}");
-        Username = Console.ReadLine()!;
-        } while(!(Username.Length >= 2 && Username.Length <= 12 && Username.All(char.IsLetterOrDigit)));
+            Console.Clear();
+            Console.WriteLine($"{World.YELLOW}{World.BOLD}What is thy name, {World.GREEN}Adventurer{World.RESET}");
+            Console.WriteLine($"{World.DIM}- 2-12 Characters");
+            Console.WriteLine($"{World.DIM}- Only letters/numbers{World.RESET}");
+            Username = Console.ReadLine()!;
+        } while (!(Username.Length >= 2 && Username.Length <= 12 && Username.All(char.IsLetterOrDigit)));
         // Create player object
         Player = new Player(Username);
 
@@ -85,7 +94,7 @@
     }
 
     // Use this method if u wanna reset the screen and print out the player stats
-    public static void Refresh() 
+    public static void Refresh()
     {
         Console.Clear();
         Console.WriteLine($"{World.GREEN}NAME:{World.RESET} {Player.Name}");
@@ -99,7 +108,7 @@
         {
             Console.WriteLine();
             Console.WriteLine($"{World.RED}ACTIVE POTIONS:{World.RESET}");
-            foreach(Potion potion in Player.PotionsActive)
+            foreach (Potion potion in Player.PotionsActive)
                 Console.WriteLine($" - {potion.Name} {World.RED}({potion.PotionDesc}){World.RESET} {World.GREEN}ACTIVE{World.RESET}");
         }
         Console.WriteLine($"{World.GREEN}__________________________________________{World.RESET}");

@@ -57,7 +57,7 @@ public class Player
     /// <summary>
     /// Update the players CurrentLocation to the given <paramref name="location"/> if possible
     /// </summary>
-    /// <param name="location"> The new <see cref="Location"/> to move the player to.</param>
+    /// <param name="location"> The new <see cref="Location"/> to move the player this location.</param>
     /// <returns>
     /// returns true if location has been changed successfully 
     /// </returns>
@@ -74,28 +74,17 @@ public class Player
         Console.WriteLine(location.Name);
         Console.WriteLine(location.Description);
 
+        // Location has a quest (because not null) _and_ player has no current quest (current quest null)
         if (location.QuestAvailableHere is not null && CurrentQuest is null)
         {
-            bool accepted = AcceptQuest(location);
-            if (accepted)
+            int accepted = location.QuestAvailableHere.AcceptOrDenyQuest();
+            if (accepted  == (int) QuestStatus.accepted)
             {
                 CurrentQuest = location.QuestAvailableHere;
             }
-        }
+        } 
 
         return true;
     }
-
-    public bool AcceptQuest(Location location)
-    {
-        Console.WriteLine("there is a quest available in this location!!");
-        Console.WriteLine(location.QuestDescription());
-        Console.WriteLine("Do you want to accept the quest? (y/n)");
-
-        string answer = World.ChooseOption("y", "n");
-
-       return  answer == "y"; 
-    }
-
 
 }

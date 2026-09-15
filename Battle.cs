@@ -10,10 +10,14 @@ public class Battle
     int PlayersDamage;
     int MonstersDamage;
 
+    Quest? quest;
+
     // Static startbattle method, callable without an instance of the class
-    public static void StartBattle(Monster monster)
+    public static void StartBattle(Monster monster, Quest quest = null)
     {
+
         Battle battle = new Battle();
+        battle.quest = quest;
 
         // Change the battle's Monster accordingly and reset his health
         battle.Monster = monster;
@@ -119,6 +123,12 @@ public class Battle
                         // TODO: Add weapon obtainment to inventory
                         World.Continue();
                     }
+
+                    if (quest is not null)
+                    {
+                        quest.status = QuestStatus.finished;
+                    }
+                    
                     FinishedBattle = true;
                 }
             }

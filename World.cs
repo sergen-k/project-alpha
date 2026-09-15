@@ -122,7 +122,7 @@ public static class World
                 QUEST_ID_TEST,
                 "Clear the alchemist's garden",
                 "Kill golbins in the goblin camp", 
-                World.LocationByID(3)
+                LOCATION_ID_GOBLIN_CAMP
                 );
 
 
@@ -136,7 +136,7 @@ public static class World
 
         Location ladybugTown = new Location(LOCATION_ID_LADYBUG_TOWN, "Ladybug Town", "", World.QuestByID(1), null);
 
-        Location goblinCamp = new Location(LOCATION_ID_GOBLIN_CAMP, "Goblin Camp", "", null, null);
+        Location goblinCamp = new Location(LOCATION_ID_GOBLIN_CAMP, "Goblin Camp", "", null, World.MonsterByID(1));
 
         Location abandonedCastle = new Location(LOCATION_ID_ABANDONED_CASTLE, "Abandoned Castle", "", null, null);
 

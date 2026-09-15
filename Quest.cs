@@ -15,14 +15,19 @@ public class Quest
 
     public string description;
 
-    public Location RelevantLocationId;
+    public int RelevantLocationID;
 
-    public Quest(int id, string name, string description,  Location targetLocation)
+    public QuestStatus status;
+
+
+
+    public Quest(int id, string name, string description, int targetLocation)
     {
         this.ID = id;
         this.name = name;
         this.description = description;
-        RelevantLocationId = targetLocation;
+        RelevantLocationID = targetLocation;
+        status = QuestStatus.pending;
     }
 
 
@@ -37,12 +42,14 @@ public class Quest
 
         if (answer == "y")
         {
-            return (int)QuestStatus.accepted;
+            status = QuestStatus.accepted;
+            return (int)status;
         }
 
         else if (answer == "n")
         {
-            return (int)QuestStatus.declined;
+            status = QuestStatus.declined;
+            return (int)status;
         }
 
         else
@@ -58,6 +65,9 @@ public class Quest
     public int FinishQuest()
     {
         Console.WriteLine("u have completed the quest!");
+        
+        status = QuestStatus.finished;
+
         return (int)QuestStatus.finished;
 
     }
