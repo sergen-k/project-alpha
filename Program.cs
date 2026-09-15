@@ -13,22 +13,16 @@
 
             // Sergens testing grounds ⌄⌄⌄
             Refresh();
-            Player.Inventory.AddPotion(World.PotionByID(World.POTION_ID_HEAL_POTION));
-            Player.Inventory.AddPotion(World.PotionByID(World.POTION_ID_MEGA_HEAL_POTION));
-            Player.Inventory.AddPotion(World.PotionByID(World.POTION_ID_STRONG_POTION));
-            Player.Inventory.AddPotion(World.PotionByID(World.POTION_ID_MEGA_STRONG_POTION));
-            Player.Inventory.AddPotion(World.PotionByID(World.POTION_ID_SURPRISE_POTION));
-            Player.Inventory.AddPotion(World.PotionByID(World.POTION_ID_CRITICAL_POTION));
-            Player.Inventory.AddArmour(World.ArmourByID(World.ARMOUR_ID_LEATHER));
-            Player.Inventory.AddArmour(World.ArmourByID(World.ARMOUR_ID_DRAGONBORN));
-            Player.Inventory.AddWeapon(World.WeaponByID(World.WEAPON_ID_THORNED_CLUB));
-            Player.Inventory.AddWeapon(World.WeaponByID(World.WEAPON_ID_BEJEWELED_BLADE));
             Battle.StartBattle(World.MonsterByID(World.MONSTER_ID_GOBLIN_CHILD));
             Refresh();
             Console.WriteLine("So who you gonna call? The martini police?");
             Console.WriteLine("Welcome to the intermission. (this is only for testing purposes)");
+            World.ShopByID(World.SHOP_ID_LADYBUG_MERCHANT).CheckShop();
+            Refresh();
             World.Continue();
             Player.Inventory.ViewInventory(false);
+            Refresh();
+            World.Continue();
             // Sergens testing grounds ^^^
 
             //TODO is player in inventory 

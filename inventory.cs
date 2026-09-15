@@ -60,7 +60,6 @@ public class InventoryManager
                         Console.WriteLine($"You have {World.RED}{World.BOLD}NO POTIONS{World.RESET} in your item bag");
                         Console.WriteLine("");
                         World.Continue();
-                        return;
                     } // if potions
                         else {ChoosePotion();}
                 }
@@ -71,7 +70,6 @@ public class InventoryManager
                         Console.WriteLine($"You have {World.RED}{World.BOLD}NO WEAPONS{World.RESET} in your item bag");
                         Console.WriteLine("");
                         World.Continue();
-                        return;
                     } // if weapons
                         else {SwitchWeapon();}
                 }
@@ -82,7 +80,6 @@ public class InventoryManager
                         Console.WriteLine($"You have {World.RED}{World.BOLD}NO ARMOUR{World.RESET} in your item bag");
                         Console.WriteLine("");
                         World.Continue();
-                        return;
                     } // if armour
                         else {SwitchArmour();}
                 }
