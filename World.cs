@@ -5,6 +5,8 @@ public static class World
     public static readonly List<Monster> Monsters = new List<Monster>();
     public static readonly List<Armour> Armours = new List<Armour>();
     public static readonly List<Potion> Potions = new List<Potion>();
+    
+    public static readonly List<Shop> Shops = new List<Shop>();
     public static readonly List<Quest> Quests = new List<Quest>();
     public static readonly List<Location> Locations = new List<Location>();
     public static readonly Random RandomGenerator = new Random();
@@ -52,6 +54,11 @@ public static class World
     public const int LOCATION_ID_MURKY_SWAMP = 8;
     public const int LOCATION_ID_LOST_GRAVEYARD = 9;
 
+    public const int SHOP_ID_LADYBUG_MERCHANT = 1;
+    public const int SHOP_ID_GOBLIN_SALESMAN = 2;
+    public const int SHOP_ID_THE_WITCH = 3;
+    public const int SHOP_ID_THE_SLIME_SMITH = 4;
+
     public const string RESET = "\x1b[0m";
     public const string BOLD = "\x1b[1m";
     public const string ITALIC = "\x1b[3m";
@@ -72,6 +79,7 @@ public static class World
         PopulateMonsters();
         PopulateQuests();
         PopulateLocations();
+        PopulateShops();
     }
 
 
@@ -113,6 +121,30 @@ public static class World
     { // Damage, HP, Gold drops, LootboxRarity, LootboxChance
         Monsters.Add(new Monster(MONSTER_ID_GOBLIN_CHILD, "Goblin Child", 5, 50, 10, "Common", 25));
         Monsters.Add(new Monster(MONSTER_ID_GOBLIN_WARRIOR, "Goblin Warrior ", 8, 75, 15, "Common", 40));
+    }
+    public static void PopulateShops()
+    { 
+        Shops.Add(new Shop(SHOP_ID_LADYBUG_MERCHANT, "Ladybug Merchant", "Welcome to my humble shop, how may I be of service to thee?", LocationByID(LOCATION_ID_LADYBUG_TOWN)));
+        Shops.Add(new Shop(SHOP_ID_GOBLIN_SALESMAN, "Goblin Salesman", "Mi sellz yu big big ituhmz very guuud very cheeeep cam buy NOWz", LocationByID(LOCATION_ID_GOBLIN_CAMP)));
+        Shops.Add(new Shop(SHOP_ID_THE_WITCH, "The Witch", "Would you like to buy some of my wacky potions?", LocationByID(LOCATION_ID_WITCHES_HUT)));
+        Shops.Add(new Shop(SHOP_ID_THE_SLIME_SMITH, "The Slime Smith", "I've got someeeeeeeee of that gooooooooooddd stuff ;]", LocationByID(LOCATION_ID_MURKY_SWAMP)));
+        ShopByID(SHOP_ID_LADYBUG_MERCHANT).AddshopItem(PotionByID(POTION_ID_HEAL_POTION), 1);
+        ShopByID(SHOP_ID_LADYBUG_MERCHANT).AddshopItem(PotionByID(POTION_ID_STRONG_POTION), 1);
+        ShopByID(SHOP_ID_LADYBUG_MERCHANT).AddshopItem(ArmourByID(ARMOUR_ID_LEATHER), 1);
+        ShopByID(SHOP_ID_LADYBUG_MERCHANT).AddshopItem(ArmourByID(ARMOUR_ID_CHAINMAIL), 1);
+
+        ShopByID(SHOP_ID_GOBLIN_SALESMAN).AddshopItem(ArmourByID(ARMOUR_ID_RAGS), 1);
+        ShopByID(SHOP_ID_GOBLIN_SALESMAN).AddshopItem(PotionByID(POTION_ID_SURPRISE_POTION), 1);
+        ShopByID(SHOP_ID_GOBLIN_SALESMAN).AddshopItem(ArmourByID(ARMOUR_ID_GILDED), 1);
+        ShopByID(SHOP_ID_GOBLIN_SALESMAN).AddshopItem(WeaponByID(WEAPON_ID_DAGGER), 1);
+        
+        ShopByID(SHOP_ID_THE_WITCH).AddshopItem(PotionByID(POTION_ID_MEGA_HEAL_POTION), 1);
+        ShopByID(SHOP_ID_THE_WITCH).AddshopItem(PotionByID(POTION_ID_MEGA_STRONG_POTION), 1);
+        ShopByID(SHOP_ID_THE_WITCH).AddshopItem(PotionByID(POTION_ID_CRITICAL_POTION), 1);
+    
+        ShopByID(SHOP_ID_THE_SLIME_SMITH).AddshopItem(ArmourByID(ARMOUR_ID_STEEL), 1);
+        ShopByID(SHOP_ID_THE_SLIME_SMITH).AddshopItem(ArmourByID(ARMOUR_ID_DRAGONBORN), 1);
+        ShopByID(SHOP_ID_THE_SLIME_SMITH).AddshopItem(WeaponByID(WEAPON_ID_DRAGON_SLAYER), 1);
     }
 
     public static void PopulateQuests()
@@ -260,6 +292,18 @@ public static class World
             if (quest.ID == id)
             {
                 return quest;
+            }
+        }
+
+        return null;
+    }
+    public static Shop ShopByID(int id)
+    {
+        foreach (Shop shop in Shops)
+        {
+            if (shop.ID == id)
+            {
+                return shop;
             }
         }
 
