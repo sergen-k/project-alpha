@@ -72,33 +72,60 @@
         //player.MoveToLocation(selectedLoc);
     }
 
-    public static void Introduction()
+public static void Introduction()
+{
+    Console.Clear();
+
+    Console.WriteLine($"{World.RED}{World.BOLD}");
+    Console.WriteLine("███╗   ███╗██╗ ██████╗██╗  ██╗███████╗██╗      ██████╗ ███╗   ██╗");
+    Console.WriteLine("████╗ ████║██║██╔════╝██║  ██║██╔════╝██║     ██╔═══██╗████╗  ██║");
+    Console.WriteLine("██╔████╔██║██║██║     ███████║█████╗  ██║     ██║   ██║██╔██╗ ██║");
+    Console.WriteLine("██║╚██╔╝██║██║██║     ██╔══██║██╔══╝  ██║     ██║   ██║██║╚██╗██║");
+    Console.WriteLine("██║ ╚═╝ ██║██║╚██████╗██║  ██║███████╗███████╗╚██████╔╝██║ ╚████║");
+    Console.WriteLine("╚═╝     ╚═╝╚═╝ ╚═════╝╚═╝  ╚═╝╚══════╝╚══════╝ ╚═════╝ ╚═╝  ╚═══╝");
+    Console.WriteLine($"{World.RESET}");
+
+    Console.WriteLine($"{World.YELLOW}{World.BOLD}              I S L A N D   A D V E N T U R E{World.RESET}");
+    Console.WriteLine();
+    Console.WriteLine($"{World.RED}                    ⚔  VENGEANCE HAS AWAKENED  ⚔{World.RESET}");
+    Console.WriteLine();
+
+    World.Continue();
+
+    Console.Clear();
+
+    Console.WriteLine($"{World.RED}The spirit of the assassinated king, {World.BOLD}Michelon,{World.RESET}{World.RED} has grown consumed by {World.BOLD}Vengeance.{World.RESET}");
+    Console.WriteLine($"{World.RED}He has unleashed a horde of {World.BOLD}Wicked{World.RESET}{World.RED} monsters, spreading {World.BOLD}Chaos and Destruction{World.RESET}{World.RED} across the island.");
+    Console.WriteLine($"{World.RED}They have overrun your {World.BOLD}Home{World.RESET}{World.RED}, leaving you no choice but to seize an {World.BOLD}Old Blade{World.RESET}{World.RED} and flee.{World.RESET}");
+
+    World.Continue();
+
+    string Username;
+
+    do
     {
         Console.Clear();
-        // Print the intro
-        Console.WriteLine($"{World.RED}The spirit of the assassinated king, {World.BOLD}Michelon,{World.RESET}{World.RED} has grown consumed by {World.BOLD}Vengeance.{World.RESET}");
-        Console.WriteLine($"{World.RED}He has unleashed a horde of {World.BOLD}Wicked{World.RESET}{World.RED} monsters, spreading {World.BOLD}Chaos and Destruction{World.RESET}{World.RED} across the island.");
-        Console.WriteLine($"{World.RED}They have overrun your {World.BOLD}Home{World.RESET}{World.RED}, leaving you no choice but to seize an {World.BOLD}Old Blade{World.RESET}{World.RED} and flee.{World.RESET}");
-        World.Continue();
-        string Username;
-        // Do-while loop until user inputs correct Username
-        do
-        {
-        Console.Clear();
+
         Console.WriteLine($"{World.YELLOW}{World.BOLD}What is thy name, {World.GREEN}Adventurer{World.RESET}");
         Console.WriteLine($"{World.DIM}- 2-12 Characters");
         Console.WriteLine($"{World.DIM}- Only letters/numbers{World.RESET}");
+
         Username = Console.ReadLine()!;
-        } while(!(Username.Length >= 2 && Username.Length <= 12 && Username.All(char.IsLetterOrDigit)));
-        // Create player object
-        Player = new Player(Username);
 
+    } while (!(Username.Length >= 2 &&
+               Username.Length <= 12 &&
+               Username.All(char.IsLetterOrDigit)));
 
-        Console.Clear();
-        Console.WriteLine($"{World.YELLOW}Welcome to {World.RESET}{World.BOLD}Michelon Island Adventure.{World.RESET}{World.YELLOW} May {World.BOLD}{World.GREEN}Fortune{World.RESET}{World.YELLOW} guide you on the journey that lies ahead.{World.RESET}");
-        Console.WriteLine($"{World.YELLOW}Good luck, {World.RESET}{World.BOLD}{Username}!{World.RESET}");
-        World.Continue();
-    }
+    Player = new Player(Username);
+
+    Console.Clear();
+
+    Console.WriteLine($"{World.YELLOW}Welcome to {World.RESET}{World.BOLD}Michelon Island Adventure.{World.RESET}");
+    Console.WriteLine($"{World.YELLOW}May {World.BOLD}{World.GREEN}Fortune{World.RESET}{World.YELLOW} guide you on the journey that lies ahead.{World.RESET}");
+    Console.WriteLine($"{World.YELLOW}Good luck, {World.BOLD}{Username}!{World.RESET}");
+
+    World.Continue();
+}
 
     // Use this method if u wanna reset the screen and print out the player stats
     public static void Refresh() 
