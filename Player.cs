@@ -27,7 +27,7 @@ public class Player
         // Health cannot go below 0
         if (CurrentHitPoints < 0)
         {
-            return_health = damage + (-1*CurrentHitPoints);
+            return_health = damage + CurrentHitPoints;
             CurrentHitPoints = 0;
         }
         return return_health;
