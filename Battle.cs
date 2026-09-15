@@ -102,6 +102,8 @@ public class Battle
                 // If the monster is dead after attacking
                 if(Monster.CurrentHitPoints == 0)
                 {
+                    if (Program.Player.CurrentQuest?.TargetMonster.ID == Monster.ID)
+                        Program.Player.CurrentQuest.CurrentMonstersKilled++;
                     ConstructMenu();
                     Console.WriteLine($"{World.GREEN}You have successfully defeated {Monster.Name}!{World.RESET}");
                     World.Continue();
@@ -113,16 +115,16 @@ public class Battle
                     World.Continue();
                     ConstructMenu();
                     // If the monster drops a lootbox
-                    if (World.RandomGenerator.Next(1,101) <= Monster.LootboxChance)
-                    {
-                        Console.WriteLine($"{World.GREEN}Oh?{World.RESET} {Monster.Name} is carrying {World.BOLD}something...{World.RESET}");
-                        Console.Write($"{World.UNDERLINE}Reach for it?{World.RESET}");
-                        Console.ReadLine(); 
-                        ConstructMenu();
-                        Console.WriteLine("This feature has not been implemented yet");
-                        // TODO: Add weapon obtainment to inventory
-                        World.Continue();
-                    }
+                    // if (World.RandomGenerator.Next(1,101) <= Monster.LootboxChance)
+                    // {
+                    //     Console.WriteLine($"{World.GREEN}Oh?{World.RESET} {Monster.Name} is carrying {World.BOLD}something...{World.RESET}");
+                    //     Console.Write($"{World.UNDERLINE}Reach for it?{World.RESET}");
+                    //     Console.ReadLine(); 
+                    //     ConstructMenu();
+                    //     Console.WriteLine("This feature has not been implemented yet");
+                    //     // TODO: Add weapon obtainment to inventory
+                    //     World.Continue();
+                    // }
 
                     if (quest is not null)
                     {
@@ -182,6 +184,7 @@ public class Battle
     public void ConstructMenu() // Refresh the screen with the player + monster health
     {
         Program.Refresh();
+        Console.WriteLine($"{World.RED}--- Battle ---{World.RESET}");
         // Monsters HP
         Console.Write($"{Monster.Name}: {World.RED}{100*Monster.CurrentHitPoints/Monster.MaximumHitPoints}%{World.RESET} HP");
         if (PlayersDamage != 0)

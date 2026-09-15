@@ -78,8 +78,8 @@ public static class World
         PopulatePotions();
         PopulateMonsters();
         PopulateQuests();
-        PopulateLocations();
         PopulateShops();
+        PopulateLocations();
     }
 
 
@@ -124,10 +124,10 @@ public static class World
     }
     public static void PopulateShops()
     { 
-        Shops.Add(new Shop(SHOP_ID_LADYBUG_MERCHANT, "Ladybug Merchant", "Welcome to my humble shop, how may I be of service to thee?", LocationByID(LOCATION_ID_LADYBUG_TOWN)));
-        Shops.Add(new Shop(SHOP_ID_GOBLIN_SALESMAN, "Goblin Salesman", "Mi sellz yu big big ituhmz very guuud very cheeeep cam buy NOWz", LocationByID(LOCATION_ID_GOBLIN_CAMP)));
-        Shops.Add(new Shop(SHOP_ID_THE_WITCH, "The Witch", "Would you like to buy some of my wacky potions?", LocationByID(LOCATION_ID_WITCHES_HUT)));
-        Shops.Add(new Shop(SHOP_ID_THE_SLIME_SMITH, "The Slime Smith", "I've got someeeeeeeee of that gooooooooooddd stuff ;]", LocationByID(LOCATION_ID_MURKY_SWAMP)));
+        Shops.Add(new Shop(SHOP_ID_LADYBUG_MERCHANT, "Ladybug Merchant", "Welcome to my humble shop, how may I be of service to thee?"));
+        Shops.Add(new Shop(SHOP_ID_GOBLIN_SALESMAN, "Goblin Salesman", "Mi sellz yu big big ituhmz very guuud very cheeeep cam buy NOWz"));
+        Shops.Add(new Shop(SHOP_ID_THE_WITCH, "The Witch", "Would you like to buy some of my wacky potions?"));
+        Shops.Add(new Shop(SHOP_ID_THE_SLIME_SMITH, "The Slime Smith", "I've got someeeeeeeee of that gooooooooooddd stuff ;]"));
         ShopByID(SHOP_ID_LADYBUG_MERCHANT).AddshopItem(PotionByID(POTION_ID_HEAL_POTION), 1);
         ShopByID(SHOP_ID_LADYBUG_MERCHANT).AddshopItem(PotionByID(POTION_ID_STRONG_POTION), 1);
         ShopByID(SHOP_ID_LADYBUG_MERCHANT).AddshopItem(ArmourByID(ARMOUR_ID_LEATHER), 1);
@@ -152,9 +152,12 @@ public static class World
         Quest TestQuest =
             new Quest(
                 QUEST_ID_TEST,
-                "Clear the alchemist's garden",
-                "Kill golbins in the goblin camp", 
-                LOCATION_ID_GOBLIN_CAMP
+                "Kill 3 Goblins in the goblin camp",
+                $"{RED}Concerned Villager:{RESET} 'Those pesky little Goblins from the Goblin Camp \nhave been coming to our town to steal these poor innocent people's gold\never since the king died. You look like a strong warrior.\nDo you think you can go and teach them a lesson?\nI'm positive they'll stop coming to our village to plunder afterwards!\nAnd don't worry, I'll reward you handsomely...'",
+                LOCATION_ID_GOBLIN_CAMP,
+                MonsterByID(MONSTER_ID_GOBLIN_CHILD), 3,
+                $"{RED}Concerned Villager:{RESET} 'Thanks for taking care of those little squeakers...\nWe are very pleased. Here is your well-deserved reward!'",
+                50
                 );
 
 
@@ -164,23 +167,23 @@ public static class World
     public static void PopulateLocations()
     {
         // Create each location
-        Location home = new Location(LOCATION_ID_HOME, "Home", "", null, null);
+        Location home = new Location(LOCATION_ID_HOME, "Home", null, null, null);
 
-        Location ladybugTown = new Location(LOCATION_ID_LADYBUG_TOWN, "Ladybug Town", "", World.QuestByID(1), null);
-
-        Location goblinCamp = new Location(LOCATION_ID_GOBLIN_CAMP, "Goblin Camp", "", null, World.MonsterByID(1));
-
-        Location abandonedCastle = new Location(LOCATION_ID_ABANDONED_CASTLE, "Abandoned Castle", "", null, null);
-
-        Location mushroomFields = new Location(LOCATION_ID_MUSHROOM_FIELDS, "Mushroom Fields", "", null, null);
-
-        Location giantForest = new Location(LOCATION_ID_GIANT_FOREST, "Giant Forest", "", null, null);
-
-        Location witchesHut = new Location(LOCATION_ID_WITCHES_HUT, "Witches Hut", "", null, null);
+        Location ladybugTown = new Location(LOCATION_ID_LADYBUG_TOWN, "Ladybug Town", QuestByID(QUEST_ID_TEST), null, ShopByID(SHOP_ID_LADYBUG_MERCHANT));
         
-        Location murkySwamp = new Location(LOCATION_ID_MURKY_SWAMP, "Murky Swamp", "", null, null);
+        Location goblinCamp = new Location(LOCATION_ID_GOBLIN_CAMP, "Goblin Camp", null, MonsterByID(1), ShopByID(SHOP_ID_GOBLIN_SALESMAN));
+
+        Location abandonedCastle = new Location(LOCATION_ID_ABANDONED_CASTLE, "Abandoned Castle", null, null, null);
+
+        Location mushroomFields = new Location(LOCATION_ID_MUSHROOM_FIELDS, "Mushroom Fields", null, null, null);
+
+        Location giantForest = new Location(LOCATION_ID_GIANT_FOREST, "Giant Forest", null, null, null);
+
+        Location witchesHut = new Location(LOCATION_ID_WITCHES_HUT, "Witches Hut", null, null, ShopByID(SHOP_ID_THE_WITCH));
         
-        Location lostGraveyard = new Location(LOCATION_ID_LOST_GRAVEYARD, "Lost Graveyard", "", null, null);
+        Location murkySwamp = new Location(LOCATION_ID_MURKY_SWAMP, "Murky Swamp", null, null, ShopByID(SHOP_ID_THE_SLIME_SMITH));
+        
+        Location lostGraveyard = new Location(LOCATION_ID_LOST_GRAVEYARD, "Lost Graveyard", null, null, null);
 
         // Link the locations together
         home.LocationToNorth = ladybugTown;
@@ -190,18 +193,18 @@ public static class World
         ladybugTown.LocationToEast = goblinCamp;
         ladybugTown.LocationToWest = mushroomFields;
 
-        goblinCamp.LocationToEast = ladybugTown;
-        goblinCamp.LocationToWest = abandonedCastle;
+        goblinCamp.LocationToWest = ladybugTown;
+        goblinCamp.LocationToEast = abandonedCastle;
 
-        abandonedCastle.LocationToEast = goblinCamp;
+        abandonedCastle.LocationToWest = goblinCamp;
 
-        mushroomFields.LocationToEast = giantForest;
-        mushroomFields.LocationToWest = ladybugTown;
+        mushroomFields.LocationToWest = giantForest;
+        mushroomFields.LocationToEast = ladybugTown;
 
-        giantForest.LocationToEast = witchesHut;
-        giantForest.LocationToWest = mushroomFields;
+        giantForest.LocationToWest = witchesHut;
+        giantForest.LocationToEast = mushroomFields;
 
-        witchesHut.LocationToWest = giantForest;
+        witchesHut.LocationToEast = giantForest;
 
         murkySwamp.LocationToSouth = ladybugTown;
         murkySwamp.LocationToNorth = lostGraveyard;
@@ -306,7 +309,6 @@ public static class World
                 return shop;
             }
         }
-
         return null;
     }
 
@@ -316,7 +318,7 @@ public static class World
     {
         string option;
         do
-            option = Console.ReadLine()!;
+            option = Console.ReadLine()!.ToLower();
         while (!options.Contains(option.ToLower()));
         return option;
     }   
@@ -338,7 +340,7 @@ public static class World
             errorCount++;
         }
         while (!options.Contains(option.ToLower()));
-        return option;
+        return option.ToLower();
     }   
 
 

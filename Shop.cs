@@ -3,15 +3,13 @@ public class Shop
     public int ID;
     public string Name;
     public string Speech;
-    public Location LiveLocation;
     public Dictionary<object, int> Items = new();
 
-    public Shop(int id, string name, string speech, Location liveLocation)
+    public Shop(int id, string name, string speech)
     {
         ID = id;
         Name = name;
         Speech = speech;
-        LiveLocation = liveLocation;
     }
 
     public void AddshopItem(object item, int price)
@@ -52,6 +50,10 @@ public class Shop
             {
                 Program.Player.Inventory.AddPotion((dynamic)TryingToBuy);
             }
+            if (TryingToBuy.GetType() == typeof(Weapon))
+            {
+                Program.Player.Inventory.AddWeapon((dynamic)TryingToBuy);
+            } 
             Console.WriteLine($"{World.YELLOW}You are now the proud owner of: {World.RESET}{((dynamic)TryingToBuy).Name}!");
         }
         else

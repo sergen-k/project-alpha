@@ -8,27 +8,18 @@
 
         while (game_running)
         {
-            // Eventually replaced with the main game loop
-
-            if (Player?.CurrentQuest is not null &&
-            Player.CurrentQuest.RelevantLocationID == Player.CurrentLocation.ID
-            && Player.CurrentQuest.status == QuestStatus.accepted
-            )
-            {
-                Monster monster = Player.CurrentLocation.MonsterLivingHere!;
-                Battle.StartBattle(monster);
-            }
-
-
-            //TODO is player in inventory 
-            // mohhamed en jasarat
-
-            Console.WriteLine("Do you want to view inventory (I) or move (M)?");
-            string menuSelection = World.ChooseOption("i", "m");
+            Refresh();
+            Console.WriteLine($"{World.RED}What do you want to do, Adventurer?{World.RESET}");
+            Console.WriteLine();
+            Console.WriteLine($"{World.RED}1.{World.RESET} Check Inventory");
+            Console.WriteLine($"{World.RED}2.{World.RESET} Travel");
+            Console.WriteLine($"{World.RED}3.{World.RESET} Explore Current Area");
+            string menuSelection = World.ChooseOption("1", "2", "3");
             switch (menuSelection)
             {
-                case "m": SelectLocation(Player); break;
-                case "i": Player.Inventory.ViewInventory(false); break;
+                case "1": Player.Inventory.ViewInventory(false); break;
+                case "2": SelectLocation(); break;
+                case "3": Player.CurrentLocation.CheckSurroundings(); break;
             }
 
             Refresh();
@@ -36,13 +27,14 @@
 
     }
 
-    public static void SelectLocation(Player player)
+    public static void SelectLocation()
     {
-        Console.WriteLine($"Je bevindt je nu in de locatie {player.CurrentLocation.Name}");
-        Console.WriteLine("Selecteer een van de onderstaande locaties:");
+        Refresh();
+        Console.WriteLine($"{World.YELLOW}You are currently at: {World.BOLD}{World.RESET}{Player.CurrentLocation.Name}{World.RESET}");
+        Console.WriteLine();
 
         // get the list of (direction, Location) objects
-        List<(string, Location)> validDirsLocations = player.CurrentLocation.GetValidNeighbors();
+        List<(string, Location)> validDirsLocations = Player.CurrentLocation.GetValidNeighbors();
 
         // for user validation
         List<string> validDirs = [];
@@ -50,17 +42,28 @@
         // Print valid locations
         foreach ((string dir, Location loc) in validDirsLocations)
         {
-            Console.WriteLine($"{dir}: {loc.Name}");
+            Console.WriteLine($"{World.RED}{dir}:{World.RESET} {loc.Name}");
             validDirs.Add(dir[0].ToString().ToLower());
         }
-
-        Console.WriteLine("fill in n/s/e/w select a location:");
+        Console.WriteLine();
+        Console.WriteLine($"{World.YELLOW}Fill in {World.RESET}N{World.DIM}/{World.RESET}S{World.DIM}/{World.RESET}E{World.DIM}/{World.RESET}W{World.YELLOW} to travel:{World.RESET}");
 
         // let the user select and fetch Location based on first char of direction.
         string selection = World.ChooseOption(validDirs, "Invalid location");
-        (_, Location selectedLoc) = validDirsLocations.Find(x => x.Item1[0].ToString() == selection);
-
-        player.MoveToLocation(selectedLoc);
+        (_, Location selectedLoc) = validDirsLocations.Find(x => x.Item1[0].ToString().ToLower() == selection);
+        Refresh();
+        Console.WriteLine($"You took a {World.RED}STEP.{World.RESET}");
+        World.Continue();
+        Refresh();
+        Console.WriteLine($"You took another {World.RED}STEP.{World.RESET}");
+        World.Continue();
+        Refresh();
+        Console.WriteLine($"You took the final {World.RED}STEP!{World.RESET}");
+        World.Continue();
+        Refresh();
+        Console.WriteLine($"{World.GREEN}{World.BOLD}You have arrived at: {World.RESET}{selectedLoc.Name}");
+        Player.MoveToLocation(selectedLoc);
+        World.Continue();
     }
 
     public static void Introduction()
@@ -78,7 +81,7 @@
 
         Console.WriteLine($"{World.YELLOW}{World.BOLD}              I S L A N D   A D V E N T U R E{World.RESET}");
         Console.WriteLine();
-        Console.WriteLine($"{World.RED}                    ⚔  VENGEANCE HAS AWAKENED  ⚔{World.RESET}");
+        Console.WriteLine($"{World.RED}                ⚔  VENGEANCE HAS AWOKEN  ⚔{World.RESET}");
         Console.WriteLine();
 
         World.Continue();
@@ -108,15 +111,11 @@
                    Username.All(char.IsLetterOrDigit)));
 
         Player = new Player(Username);
-
-
-        Player.Inventory.AddWeapon(World.WeaponByID(1));
-
         Console.Clear();
 
         Console.WriteLine($"{World.YELLOW}Welcome to {World.RESET}{World.BOLD}Michelon Island Adventure.{World.RESET}");
         Console.WriteLine($"{World.YELLOW}May {World.BOLD}{World.GREEN}Fortune{World.RESET}{World.YELLOW} guide you on the journey that lies ahead.{World.RESET}");
-        Console.WriteLine($"{World.YELLOW}Good luck, {World.BOLD}{Username}!{World.RESET}");
+        Console.WriteLine($"{World.YELLOW}Good luck, {World.RESET}{World.BOLD}{Username}!{World.RESET}");
 
         World.Continue();
     }
@@ -130,14 +129,26 @@
         Console.WriteLine($"{World.GREEN}WEAPON:{World.RESET} {Player.CurrentWeapon.Name} - {World.BOLD}{Player.CurrentWeapon.Rarity}{World.RESET} {World.DIM}{World.RED}({Player.CurrentWeapon.MaximumDamage} DMG){World.RESET}");
         Console.WriteLine($"{World.GREEN}ARMOUR:{World.RESET} {Player.CurrentArmour.Name} - {World.BOLD}{Player.CurrentArmour.Rarity}{World.RESET} {World.DIM}{World.BLUE}({Player.CurrentArmour.Defense}% DEF){World.RESET}");
         Console.WriteLine($"{World.GREEN}GOLD:{World.RESET} {Player.Gold}");
-        // TODO: Display Optional Quest
         Console.WriteLine($"{World.GREEN}LOCATION:{World.RESET} {Player.CurrentLocation.Name}");
+        if (Player.CurrentQuest != null)
+        {
+            Console.WriteLine();
+            Console.WriteLine($"{World.GREEN}CURRENT QUEST:");
+            Console.WriteLine($" {World.RED}- {Player.CurrentQuest.Description}{World.RESET}");
+            if(Player.CurrentQuest.CurrentMonstersKilled >= Player.CurrentQuest.MonsterCount)
+            {
+                Console.WriteLine($"{World.GREEN}{World.BOLD}FINISHED! Return to {World.LocationByID(Player.CurrentQuest.RelevantLocationID).Name}{World.RESET}");
+                Player.CurrentQuest.status = QuestStatus.finished;
+            }
+            else
+            {Console.WriteLine($"{World.RED}{World.BOLD}({Player.CurrentQuest.CurrentMonstersKilled}/{Player.CurrentQuest.MonsterCount}){World.RESET}");}
+        }
         if (Player.PotionsActive.Count > 0)
         {
             Console.WriteLine();
             Console.WriteLine($"{World.RED}ACTIVE POTIONS:{World.RESET}");
             foreach (Potion potion in Player.PotionsActive)
-                Console.WriteLine($" - {potion.Name} {World.RED}({potion.PotionDesc}){World.RESET} {World.GREEN}ACTIVE{World.RESET}");
+                Console.WriteLine($" - {potion.Name} {World.RED}({potion.PotionDesc}){World.RESET} {World.GREEN}ACTIVATED{World.RESET}");
         }
         Console.WriteLine($"{World.GREEN}__________________________________________{World.RESET}");
         Console.WriteLine();

@@ -4,11 +4,11 @@ public class Location
 
     public string Name;
 
-    public string Description;
-
     public Quest? QuestAvailableHere;
 
     public Monster? MonsterLivingHere;
+    public Shop? ShopHere;
+    public string SurroundingHere;
 
     public Location? LocationToNorth;
 
@@ -19,13 +19,92 @@ public class Location
     public Location? LocationToWest;
 
 
-    public Location(int id, string name, string description, Quest quest, Monster monster)
+    public Location(int id, string name, Quest quest, Monster monster, Shop shop)
     {
         ID = id;
         Name = name;
-        Description = description;
         QuestAvailableHere = quest;
         MonsterLivingHere = monster;
+        ShopHere = shop;
+    }
+
+    public void AddSurrounding(string surrounding)
+    {
+        SurroundingHere = surrounding;
+    }
+
+    public void CheckSurroundings()
+    {
+        Program.Refresh();
+        Console.WriteLine("You see, stuff! (WIP)");
+        World.Continue();
+        while (true)
+        {
+            // TODO - add surroundings for each area
+            Program.Refresh();
+            Console.WriteLine($"{World.GREEN}---Surroundings---{World.RESET}");
+            Console.WriteLine($"{World.BLUE}1.{World.RED} RETURN{World.RESET}");
+            List<string> Options = ["1"];
+            if (MonsterLivingHere != null)
+            {
+                Console.WriteLine($"{World.BLUE}B.{World.RESET} Battle Monster{World.RESET}");
+                Options.Add("b");
+            }
+            if (QuestAvailableHere != null)
+            {
+                Console.WriteLine($"{World.BLUE}Q. {World.RESET}Check Quest");
+                Options.Add("q");
+            }
+            if (ShopHere != null)
+            {
+                Console.WriteLine($"{World.BLUE}S. {World.RESET}Enter {ShopHere.Name}'s Shop");
+                Options.Add("s");
+            }
+            if (Options.Count == 1)
+            {
+                return;
+            }
+            
+            string option = World.ChooseOption(Options.ToArray());
+            if (option == "1")
+                return;
+            else if (option == "b")
+            {
+                Program.Refresh();
+                Battle.StartBattle(MonsterLivingHere);
+            }
+            else if (option == "q")
+            {
+                Program.Refresh();
+                    if (QuestAvailableHere.status == QuestStatus.pending)
+                    {
+                        if (QuestAvailableHere.AcceptOrDenyQuest() == 1)
+                        {
+                            Program.Player.CurrentQuest = QuestAvailableHere;
+                        }
+                    }
+                    else if (QuestAvailableHere.status == QuestStatus.accepted)
+                    {
+                        Console.WriteLine($"{World.RED}Quest has NOT been finished yet.{World.RESET}");
+                        World.Continue();
+                    }
+                    else if (QuestAvailableHere.status == QuestStatus.finished)
+                    {
+                        QuestAvailableHere.FinishQuest();
+                        QuestAvailableHere = null;
+                        World.Continue();
+                    }
+                        
+            }
+            else if (option == "s")
+            {
+                Program.Refresh();
+                ShopHere.CheckShop();
+            }
+
+            
+        }
+
     }
 
 
@@ -57,31 +136,24 @@ public class Location
 
         if (LocationToNorth is not null)
         {
-            result.Add(("north", LocationToNorth));
+            result.Add(("North", LocationToNorth));
         }
 
         if (LocationToEast is not null)
         {
-            result.Add(("east", LocationToEast));
+            result.Add(("East", LocationToEast));
         }
 
         if (LocationToSouth is not null)
         {
-            result.Add(("south", LocationToSouth));
+            result.Add(("South", LocationToSouth));
         }
 
         if (LocationToWest is not null)
         {
-            result.Add(("west", LocationToWest));
+            result.Add(("West", LocationToWest));
         }
 
         return result;
     }
-
-
-    public string QuestDescription()
-    {
-        return Description;
-    }
-
 }

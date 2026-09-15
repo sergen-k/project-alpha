@@ -63,27 +63,11 @@ public class Player
     /// </returns>
     public bool MoveToLocation(Location location)
     {
-
         if (!CurrentLocation.IsNeighbor(location))
         {
             return false;
         }
-
         CurrentLocation = location;
-
-        Console.WriteLine(location.Name);
-        Console.WriteLine(location.Description);
-
-        // Location has a quest (because not null) _and_ player has no current quest (current quest null)
-        if (location.QuestAvailableHere is not null && CurrentQuest is null)
-        {
-            int accepted = location.QuestAvailableHere.AcceptOrDenyQuest();
-            if (accepted  == (int) QuestStatus.accepted)
-            {
-                CurrentQuest = location.QuestAvailableHere;
-            }
-        } 
-
         return true;
     }
 
