@@ -5,7 +5,6 @@
     public static void Main(string[] args)
     {
         Introduction();
-        WinGame();
 
         while (game_running)
         {
