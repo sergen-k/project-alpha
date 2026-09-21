@@ -24,7 +24,6 @@
 
             Refresh();
         }
-
     }
 
     public static void SelectLocation()
@@ -152,5 +151,19 @@
         }
         Console.WriteLine($"{World.GREEN}__________________________________________{World.RESET}");
         Console.WriteLine();
+    }
+    public static void WinGame()
+    {
+        Console.Clear();
+
+        Console.WriteLine($"{World.GREEN}{World.BOLD}YOU WIN!{World.RESET}");
+        Console.WriteLine();
+
+        Console.WriteLine($"Name: {Player.Name}");
+        Console.WriteLine($"HP: {Player.CurrentHitPoints}/{Player.MaximumHitPoints}");
+        Console.WriteLine($"Gold: {Player.Gold}");
+        Console.WriteLine($"Weapon: {Player.CurrentWeapon.Name}");
+        Console.WriteLine($"Armour: {Player.CurrentArmour.Name}");
+        game_running = false;
     }
 }
