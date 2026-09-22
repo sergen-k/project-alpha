@@ -9,7 +9,7 @@ public enum QuestStatus
 
 public class Quest
 {
-    public int ID;
+    public int QuestID;
 
     public string Description;
 
@@ -25,12 +25,12 @@ public class Quest
 
     public QuestStatus status;
 
-    public bool QuestUnlocked;
+    public bool IsQuestUnlocked;
 
 
-    public Quest(int id, string description, string dialogue, int targetLocation, Monster targetMonster, int monsterCount, string rewardMessage, int reward, bool questUnlocked)
+    public Quest(int questId, string description, string dialogue, int targetLocation, Monster targetMonster, int monsterCount, string rewardMessage, int reward, bool questUnlocked)
     {
-        ID = id;
+        QuestID = questId;
         Description = description;
         Dialogue = dialogue;
         RelevantLocationID = targetLocation;
@@ -40,7 +40,7 @@ public class Quest
         CurrentMonstersKilled = 0;
         RewardMessage = rewardMessage;
         Reward = reward;
-        QuestUnlocked = questUnlocked;
+        IsQuestUnlocked = questUnlocked;
     }
 
 
@@ -66,21 +66,21 @@ public class Quest
         Program.Player.CurrentHitPoints = Program.Player.MaximumHitPoints;
         Console.WriteLine($"{World.YELLOW}+{Reward} Gold");
         Console.WriteLine($"{World.RED}+50 Max HP");
-        if (ID == World.QUEST_ID_THE_VILLAGER)
+        if (QuestID == World.QUEST_ID_THE_GOBLINS)
         {
-            World.QuestByID(World.QUEST_ID_THE_TROLL).QuestUnlocked = true;
+            World.QuestByID(World.QUEST_ID_THE_RATS).IsQuestUnlocked = true;
         }
-        else if (ID == World.QUEST_ID_THE_TROLL)
+        else if (QuestID == World.QUEST_ID_THE_RATS)
         {
-            World.QuestByID(World.QUEST_ID_THE_WITCH).QuestUnlocked = true;
+            World.QuestByID(World.QUEST_ID_THE_WITCH).IsQuestUnlocked = true;
         }
-        else if (ID == World.QUEST_ID_THE_WITCH)
+        else if (QuestID == World.QUEST_ID_THE_WITCH)
         {
-            World.QuestByID(World.QUEST_ID_THE_KING).QuestUnlocked = true;
+            World.QuestByID(World.QUEST_ID_THE_KING).IsQuestUnlocked = true;
             World.ShopByID(World.SHOP_ID_THE_WITCH).ShopUnlocked = true;
             World.LocationByID(World.LOCATION_ID_LADYBUG_TOWN).LocationToNorth = World.LocationByID(World.LOCATION_ID_MURKY_SWAMP);
         }
-        else if (ID == World.QUEST_ID_THE_SLIME)
+        else if (QuestID == World.QUEST_ID_THE_SLIME)
         {
             World.ShopByID(World.SHOP_ID_THE_SLIME_SMITH).ShopUnlocked = true;
         }
