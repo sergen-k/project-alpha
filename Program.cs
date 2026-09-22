@@ -9,11 +9,11 @@
         while (game_running)
         {
             Refresh();
-            Console.WriteLine($"{World.RED}What do you want to do, Adventurer?{World.RESET}");
+            Console.WriteLine($"{World.BLUE}What do you want to do, Adventurer?{World.RESET}");
             Console.WriteLine();
-            Console.WriteLine($"{World.RED}1.{World.RESET} Check Inventory");
-            Console.WriteLine($"{World.RED}2.{World.RESET} Travel");
-            Console.WriteLine($"{World.RED}3.{World.RESET} Explore Current Area");
+            Console.WriteLine($"{World.BLUE}1.{World.RESET} Check Inventory");
+            Console.WriteLine($"{World.BLUE}2.{World.RESET} Travel");
+            Console.WriteLine($"{World.BLUE}3.{World.RESET} Explore Current Area");
             string menuSelection = World.ChooseOption("1", "2", "3");
             switch (menuSelection)
             {
@@ -24,7 +24,6 @@
 
             Refresh();
         }
-
     }
 
     public static void SelectLocation()
@@ -42,7 +41,7 @@
         // Print valid locations
         foreach ((string dir, Location loc) in validDirsLocations)
         {
-            Console.WriteLine($"{World.RED}{dir}:{World.RESET} {loc.Name}");
+            Console.WriteLine($"{World.BLUE}{dir}:{World.RESET} {loc.Name}");
             validDirs.Add(dir[0].ToString().ToLower());
         }
         Console.WriteLine();
@@ -52,13 +51,13 @@
         string selection = World.ChooseOption(validDirs, "Invalid location");
         (_, Location selectedLoc) = validDirsLocations.Find(x => x.Item1[0].ToString().ToLower() == selection);
         Refresh();
-        Console.WriteLine($"You took a {World.RED}STEP.{World.RESET}");
+        Console.WriteLine($"You took a {World.BLUE}STEP.{World.RESET}");
         World.Continue();
         Refresh();
-        Console.WriteLine($"You took another {World.RED}STEP.{World.RESET}");
+        Console.WriteLine($"You took another {World.BLUE}STEP.{World.RESET}");
         World.Continue();
         Refresh();
-        Console.WriteLine($"You took the final {World.RED}STEP!{World.RESET}");
+        Console.WriteLine($"You took the final {World.BLUE}STEP!{World.RESET}");
         World.Continue();
         Refresh();
         Console.WriteLine($"{World.GREEN}{World.BOLD}You have arrived at: {World.RESET}{selectedLoc.Name}");
@@ -70,7 +69,7 @@
     {
         Console.Clear();
 
-        Console.WriteLine($"{World.RED}{World.BOLD}");
+        Console.WriteLine($"{World.BLUE}{World.BOLD}");
         Console.WriteLine("███╗   ███╗██╗ ██████╗██╗  ██╗███████╗██╗      ██████╗ ███╗   ██╗");
         Console.WriteLine("████╗ ████║██║██╔════╝██║  ██║██╔════╝██║     ██╔═══██╗████╗  ██║");
         Console.WriteLine("██╔████╔██║██║██║     ███████║█████╗  ██║     ██║   ██║██╔██╗ ██║");
@@ -81,16 +80,16 @@
 
         Console.WriteLine($"{World.YELLOW}{World.BOLD}              I S L A N D   A D V E N T U R E{World.RESET}");
         Console.WriteLine();
-        Console.WriteLine($"{World.RED}                ⚔  VENGEANCE HAS AWOKEN  ⚔{World.RESET}");
+        Console.WriteLine($"{World.BLUE}                ⚔  VENGEANCE HAS AWOKEN  ⚔{World.RESET}");
         Console.WriteLine();
 
         World.Continue();
 
         Console.Clear();
 
-        Console.WriteLine($"{World.GREEN}The spirit of the assassinated king, {World.BOLD}Michelon,{World.RESET}{World.GREEN} has grown consumed by {World.BOLD}Vengeance.{World.RESET}");
-        Console.WriteLine($"{World.GREEN}He has unleashed a horde of {World.BOLD}Wicked{World.RESET}{World.GREEN} monsters, spreading {World.BOLD}Chaos and Destruction{World.RESET}{World.GREEN} across the island.");
-        Console.WriteLine($"{World.GREEN}They have overrun your {World.BOLD}Home{World.RESET}{World.GREEN}, leaving you no choice but to seize an {World.BOLD}Old Blade{World.RESET}{World.GREEN} and flee.{World.RESET}");
+        Console.WriteLine($"{World.BLUE}The spirit of the assassinated king, {World.BOLD}Michelon,{World.RESET}{World.BLUE} has grown consumed by {World.BOLD}Vengeance.{World.RESET}");
+        Console.WriteLine($"{World.BLUE}He has unleashed a horde of {World.BOLD}Wicked{World.RESET}{World.BLUE} monsters, spreading {World.BOLD}Chaos and Destruction{World.RESET}{World.BLUE} across the island.");
+        Console.WriteLine($"{World.BLUE}They have overrun your {World.BOLD}Home{World.RESET}{World.BLUE}, leaving you no choice but to seize an {World.BOLD}Old Blade{World.RESET}{World.BLUE} and flee.{World.RESET}");
 
         World.Continue();
 
@@ -152,5 +151,19 @@
         }
         Console.WriteLine($"{World.GREEN}__________________________________________{World.RESET}");
         Console.WriteLine();
+    }
+    public static void WinGame()
+    {
+        Console.Clear();
+
+        Console.WriteLine($"{World.GREEN}{World.BOLD}YOU WIN!{World.RESET}");
+        Console.WriteLine();
+
+        Console.WriteLine($"Name: {Player.Name}");
+        Console.WriteLine($"HP: {Player.CurrentHitPoints}/{Player.MaximumHitPoints}");
+        Console.WriteLine($"Gold: {Player.Gold}");
+        Console.WriteLine($"Weapon: {Player.CurrentWeapon.Name}");
+        Console.WriteLine($"Armour: {Player.CurrentArmour.Name}");
+        game_running = false;
     }
 }
