@@ -30,6 +30,13 @@ public class InventoryManager
         }
     }
 
+    public void Reset()
+    {
+        Weapons.Clear();
+        Armours.Clear();
+        Potions.Clear();
+    }
+
     public void ViewInventory(bool inBattle) // if inBattle = true, only able to view potions
     {
         do

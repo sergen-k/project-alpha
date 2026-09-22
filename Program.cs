@@ -8,6 +8,14 @@
 
         while (game_running)
         {
+
+            if(Player.IsDead())
+            {
+                bool continueGame = DeathScreen();
+                if(!continueGame) break;
+
+                ResetGame();
+            }
             Refresh();
             Console.WriteLine($"{World.BLUE}What do you want to do, Adventurer?{World.RESET}");
             Console.WriteLine();
@@ -152,6 +160,51 @@
         Console.WriteLine($"{World.GREEN}__________________________________________{World.RESET}");
         Console.WriteLine();
     }
+
+    public static bool DeathScreen()
+    {
+        Console.WriteLine("You have died! Do you want to continue with the game? (y/n)");
+        string option = World.ChooseOption("y", "n");
+        return option == "y";
+    }
+
+
+    public static void ResetGame()
+    {
+        // Reset player 
+        Player.Reset();
+
+        // reset quests
+        foreach(Quest quest in World.Quests)
+        {
+            quest.status = QuestStatus.pending;
+            quest.CurrentMonstersKilled = 0;
+        }
+
+        Quest TheVillager = World.QuestByID(World.QUEST_ID_THE_VILLAGER);
+        TheVillager.QuestUnlocked = true;
+        
+        Quest TheTroll = World.QuestByID(World.QUEST_ID_THE_TROLL);
+        TheTroll.QuestUnlocked = true;
+
+        Quest TheGrasshopper =  World.QuestByID(World.QUEST_ID_THE_GRASSHOPPER);
+        TheGrasshopper.QuestUnlocked = true;
+        
+        Quest TheWoodpecker =  World.QuestByID(World.QUEST_ID_THE_WOODPECKER);
+        TheWoodpecker.QuestUnlocked = true;
+        
+        Quest TheWitch =  World.QuestByID(World.SHOP_ID_THE_WITCH);
+        TheWitch.QuestUnlocked = false;
+        
+        Quest TheSlime =  World.QuestByID(World.SHOP_ID_THE_SLIME_SMITH);
+        TheSlime.QuestUnlocked = true;
+
+        Quest TheKing =  World.QuestByID(World.QUEST_ID_THE_KING);
+        TheKing.QuestUnlocked = false;
+
+
+    }
+
     public static void WinGame()
     {
         Console.Clear();

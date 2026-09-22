@@ -46,6 +46,12 @@ public class Battle
     // A player only has a 50% chance for the flee to succeed
     public void PlayersTurn()
     {
+        if(Player.IsDead())
+        {
+            FinishedBattle = true;
+            return;
+        }
+
         back: // Label for when the script wants to return to the start
         ConstructMenu();
         Console.WriteLine($"{World.BLUE}What will you do?{World.RESET}");
