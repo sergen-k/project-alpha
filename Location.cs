@@ -65,15 +65,21 @@ public class Location
             }
             if (QuestAvailableHere != null)
             {
+                if (QuestAvailableHere.IsQuestUnlocked)
+                {
                 index++;
                 Console.WriteLine($"{World.BLUE}{index}. {World.RESET}Check Quest");
                 Options[$"{index}"] = "Quest";
+                }
             }
             if (ShopHere != null)
-            {
+            {  
+                if (ShopHere.ShopUnlocked)
+                {
                 index++;
                 Console.WriteLine($"{World.BLUE}{index}. {World.RESET}Enter {ShopHere.Name}'s Shop");
                 Options[$"{index}"] = "Shop";
+                }
             }
             if (Options.Count == 1)
             {
@@ -87,6 +93,8 @@ public class Location
             {
                 Program.Refresh();
                 Battle.StartBattle(MonsterLivingHere);
+                if (Program.Player.IsDead())
+                    return;
             }
             else if (Options[option] == "Quest")
             {
@@ -96,6 +104,43 @@ public class Location
                         if (QuestAvailableHere.AcceptOrDenyQuest() == 1)
                         {
                             Program.Player.CurrentQuest = QuestAvailableHere;
+                            if (Program.Player.CurrentQuest == World.QuestByID(World.QUEST_ID_THE_WITCH))
+                            {
+                                Program.Refresh();
+                                Battle.StartBattle(World.MonsterByID(World.MONSTER_ID_THE_WITCH));
+                                if (Program.Player.IsDead())
+                                return;
+                                
+                            }
+                            else if (Program.Player.CurrentQuest == World.QuestByID(World.QUEST_ID_THE_KING))
+                            {
+                                Program.Refresh();
+                                Battle.StartBattle(World.MonsterByID(World.MONSTER_ID_MICHELON));
+                                if (Program.Player.IsDead())
+                                return;
+                                Console.WriteLine($"{World.RED}The king has finally been defeated, the island may now be free...");
+                                Console.WriteLine($"{World.RED}Plus, you got a kick-ass weapon out of it. I'd call this a complete win!");
+                                World.Continue();
+                                Program.Refresh();
+                                Console.WriteLine($"{World.RED}Although, it seemed a bit easy");
+                                Console.WriteLine($"{World.RED}Too easy...");
+                                World.Continue();
+                                Program.Refresh();
+                                Console.WriteLine($"{World.RED}A distant rumble is audible..");
+                                World.Continue();
+                                Program.Refresh();
+                                Battle.StartBattle(World.MonsterByID(World.MONSTER_ID_KING_MICHELON_VIII));
+                                if (Program.Player.IsDead())
+                                return;
+                                Program.Player.CurrentQuest = null;
+                                Console.WriteLine($"{World.GREEN}There we go!");
+                                Console.WriteLine($"{World.GREEN}He's surely dead now..");
+                                World.Continue();
+                                Program.Refresh();
+                                Console.WriteLine($"{World.GREEN}The island has been saved.");
+                                Console.WriteLine($"{World.GREEN}You can go home now.");
+                                Program.WinGame();
+                            }
                         }
                     }
                     else if (QuestAvailableHere.status == QuestStatus.accepted)

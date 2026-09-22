@@ -130,8 +130,10 @@ public class Battle
                         Console.Write($"{World.UNDERLINE}Reach for it?{World.RESET}");
                         Console.ReadLine(); 
                         ConstructMenu();
-                        List<string> rarities = ["Common", "Rare", "Epic", "Legendary", "Mythical"];
+                        List<string> rarities = ["Common", "Rare", "Epic", "Legendary", "Mythic"];
                         Weapon chosenWeapon = new(World.WeaponByID(World.RandomGenerator.Next(1,4) + rarities.IndexOf(Monster.LootboxRarity)*3));
+                        if (chosenWeapon.ID == 1)
+                            chosenWeapon = World.WeaponByID(2);
                         chosenWeapon.SetQuality();
                         Program.Player.Inventory.AddWeapon(chosenWeapon);
                         Monster.WeaponDropped = true;
@@ -140,7 +142,7 @@ public class Battle
                         Console.WriteLine($"{World.GREEN}RARITY: {World.RESET}{chosenWeapon.Rarity}");
                         Console.WriteLine($"{World.RED}DAMAGE: {World.RESET}{chosenWeapon.CurrentDamage}");
                         World.Continue();
-                        if (chosenWeapon.Rarity == "Mythical")
+                        if (chosenWeapon.Rarity == "Mythic")
                         {   
                             Program.Player.Inventory.AddWeapon(Program.Player.CurrentWeapon);
                             Player.CurrentWeapon = chosenWeapon;
@@ -208,28 +210,35 @@ public class Battle
         {
             if (Monster.IsBoss && World.RandomGenerator.Next(100) > 73 || !Monster.IsBoss || HasUsedPotion)
             {
-                MonstersDamage = Program.Player.TakeDamage(MonstersDamage);
                 if (HasDamageBoost)
                 {
                     MonstersDamage *= 4;
-                    HasDamageBoost = false;
                 }
+                HasDamageBoost = false;
+                MonstersDamage = Program.Player.TakeDamage(MonstersDamage);
                 ConstructMenu();
                 Console.WriteLine($"{World.BOLD}{Monster.Name}{World.RESET} {World.GREEN}HIT{World.RESET} and did {World.RED}{MonstersDamage} DMG!{World.RESET}");
                 HasUsedPotion = false;
             }
             else
             {
+            MonstersDamage = 0;
                 if (World.RandomGenerator.Next(100) > 48)
                 {
                     ConstructMenu();
-                    Monster.CurrentHitPoints += 2500;
+                    if (Monster.ID == World.MONSTER_ID_THE_WITCH)
+                        Monster.CurrentHitPoints += 200;
+                    else
+                        Monster.CurrentHitPoints += 2000;
                     if (Monster.CurrentHitPoints > Monster.MaximumHitPoints)
                     {
                         Monster.CurrentHitPoints = Monster.MaximumHitPoints;
                     }
                     Console.WriteLine($"{World.RED}{Monster.Name} has used a Heal Potion");
-                    Console.WriteLine($"{World.RED}+2500 HP");
+                    if (Monster.ID == World.MONSTER_ID_THE_WITCH)
+                        Console.WriteLine($"{World.RED}+200 HP");
+                    else
+                        Console.WriteLine($"{World.RED}+2000 HP");
                 }
                 else
                 {
@@ -242,11 +251,12 @@ public class Battle
             }
         }
         MonstersDamage = 0; 
+        World.Continue();
         if (Program.Player.IsDead())
         {
-            Console.WriteLine($"{World.RED}u DEAD mah boi... Aint no second chances for u. Time to despawn{World.RESET}");
+            FinishedBattle = true;
+            return;
         }
-        World.Continue();
     }
 
     public void ConstructMenu() // Refresh the screen with the player + monster health

@@ -4,6 +4,7 @@
     public static bool game_running = true;
     public static void Main(string[] args)
     {
+        World.ResetWorld();
         Introduction();
 
         while (game_running)
@@ -13,7 +14,6 @@
             {
                 bool continueGame = DeathScreen();
                 if(!continueGame) break;
-
                 ResetGame();
             }
             Refresh();
@@ -29,7 +29,6 @@
                 case "2": SelectLocation(); break;
                 case "3": Player.CurrentLocation.CheckSurroundings(); break;
             }
-
             Refresh();
         }
     }
@@ -163,7 +162,7 @@
 
     public static bool DeathScreen()
     {
-        Console.WriteLine("You have died! Do you want to continue with the game? (y/n)");
+        Console.WriteLine($"{World.RED}You have DIED! Do you wish to replay the game? {World.RESET}{World.DIM}({World.RESET}{World.GREEN}Y{World.RESET}{World.DIM}/{World.RESET}{World.RED}N{World.RESET}{World.DIM}){World.RESET}");
         string option = World.ChooseOption("y", "n");
         return option == "y";
     }
@@ -171,38 +170,18 @@
 
     public static void ResetGame()
     {
+        World.ResetWorld();
         // Reset player 
-        Player.Reset();
-
-        // reset quests
-        foreach(Quest quest in World.Quests)
-        {
-            quest.status = QuestStatus.pending;
-            quest.CurrentMonstersKilled = 0;
-        }
-
-        Quest TheVillager = World.QuestByID(World.QUEST_ID_THE_VILLAGER);
-        TheVillager.QuestUnlocked = true;
-        
-        Quest TheTroll = World.QuestByID(World.QUEST_ID_THE_TROLL);
-        TheTroll.QuestUnlocked = true;
-
-        Quest TheGrasshopper =  World.QuestByID(World.QUEST_ID_THE_GRASSHOPPER);
-        TheGrasshopper.QuestUnlocked = true;
-        
-        Quest TheWoodpecker =  World.QuestByID(World.QUEST_ID_THE_WOODPECKER);
-        TheWoodpecker.QuestUnlocked = true;
-        
-        Quest TheWitch =  World.QuestByID(World.SHOP_ID_THE_WITCH);
-        TheWitch.QuestUnlocked = false;
-        
-        Quest TheSlime =  World.QuestByID(World.SHOP_ID_THE_SLIME_SMITH);
-        TheSlime.QuestUnlocked = true;
-
-        Quest TheKing =  World.QuestByID(World.QUEST_ID_THE_KING);
-        TheKing.QuestUnlocked = false;
-
-
+        Player.MaximumHitPoints = 100;
+        Player.CurrentHitPoints = Player.MaximumHitPoints;
+        Player.CurrentWeapon = World.WeaponByID(World.WEAPON_ID_RUSTY_SWORD);
+        Player.CurrentArmour = World.ArmourByID(World.ARMOUR_ID_RAGS);
+        Player.CurrentLocation = World.LocationByID(World.LOCATION_ID_HOME);
+        Player.Gold = 0;
+        Player.IsFighting = false;
+        Player.CurrentQuest = null;
+        Player.Inventory.Reset();
+        Refresh();
     }
 
     public static void WinGame()
@@ -239,6 +218,7 @@
         Console.WriteLine();
         Console.WriteLine($"{World.GREEN}{World.BOLD}Congratulations, {Player.Name}!{World.RESET}");
         Console.WriteLine("You have completed Michelon Island Adventure.");
+        World.Continue();
 
         game_running = false;
     }

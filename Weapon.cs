@@ -21,7 +21,7 @@ public class Weapon
             <= 6 => "Rare",
             <= 9 => "Epic",
             <= 12 => "Legendary",
-            <= 15 => "Mythical"
+            <= 15 => "Mythic"
         };
     }
 
@@ -30,7 +30,7 @@ public class Weapon
 
     public void SetQuality()
     {
-        Quality = World.RandomGenerator.Next(50,101);
+        Quality = World.RandomGenerator.Next(70,101);
         CurrentDamage = Quality*MaximumDamage/100;
     }
 }

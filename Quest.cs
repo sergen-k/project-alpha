@@ -66,6 +66,7 @@ public class Quest
         Program.Player.CurrentHitPoints = Program.Player.MaximumHitPoints;
         Console.WriteLine($"{World.YELLOW}+{Reward} Gold");
         Console.WriteLine($"{World.RED}+50 Max HP");
+        Console.WriteLine($"{World.RED}FULLY HEALED!");
         if (QuestID == World.QUEST_ID_THE_GOBLINS)
         {
             World.QuestByID(World.QUEST_ID_THE_RATS).IsQuestUnlocked = true;

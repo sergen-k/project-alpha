@@ -70,18 +70,4 @@ public class Player
         CurrentLocation = location;
         return true;
     }
-
-    public void Reset()
-    {
-        CurrentHitPoints = MaximumHitPoints;
-        CurrentWeapon = World.WeaponByID(World.WEAPON_ID_RUSTY_SWORD);
-        CurrentArmour = World.ArmourByID(World.ARMOUR_ID_RAGS);
-        CurrentLocation = World.LocationByID(World.LOCATION_ID_HOME);
-        Gold = 0;
-        IsFighting = false;
-        CurrentQuest = null;
-    
-        Inventory.Reset();
-    }
-
 }

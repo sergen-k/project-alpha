@@ -89,8 +89,16 @@ public static class World
     public const string BLUE = "\x1b[34m";
     public const string GRAY = "\u001b[90m";
 
-    static World()
+    public static void ResetWorld()
     {
+        Weapons.Clear();
+        Armours.Clear();
+        Potions.Clear();
+        Monsters.Clear();
+        Quests.Clear();
+        Shops.Clear();
+        Locations.Clear();
+
         PopulateWeapons();
         PopulateArmour();
         PopulatePotions();
@@ -133,8 +141,8 @@ public static class World
 
     public static void PopulatePotions()
     {
-        Potions.Add(new Potion(POTION_ID_HEAL_POTION, "Heal Potion", "+10 HP", $"{BLUE}INSTANT{RESET}", 10));
-        Potions.Add(new Potion(POTION_ID_MEGA_HEAL_POTION, "Mega Heal Potion", "+20 HP", $"{BLUE}INSTANT{RESET}", 20));
+        Potions.Add(new Potion(POTION_ID_HEAL_POTION, "Heal Potion", "+50 HP", $"{BLUE}INSTANT{RESET}", 50));
+        Potions.Add(new Potion(POTION_ID_MEGA_HEAL_POTION, "Mega Heal Potion", "+100 HP", $"{BLUE}INSTANT{RESET}", 100));
         Potions.Add(new Potion(POTION_ID_STRONG_POTION, "Strong Potion", "+50 DMG", $"{RED}PASSIVE{RESET}", 0));
         Potions.Add(new Potion(POTION_ID_MEGA_STRONG_POTION, "Mega Strong Potion", "x2 DMG", $"{RED}PASSIVE{RESET}", 0));
         Potions.Add(new Potion(POTION_ID_CRITICAL_POTION, "Critical Potion", "50% Crit", $"{RED}PASSIVE{RESET}", 0));
@@ -144,13 +152,13 @@ public static class World
 
     public static void PopulateMonsters()
     { // Damage, HP, Gold drops, LootboxRarity, LootboxChance
-        Monsters.Add(new Monster(MONSTER_ID_GOBLIN_WARRIOR, "Goblin Warrior", 8, 60, 15, "Common", false));
-        Monsters.Add(new Monster(MONSTER_ID_TERROR_RAT, "Terror Rat", 15, 175, 25, "Rare", false));
+        Monsters.Add(new Monster(MONSTER_ID_GOBLIN_WARRIOR, "Goblin Warrior", 6, 60, 15, "Common", false));
+        Monsters.Add(new Monster(MONSTER_ID_TERROR_RAT, "Terror Rat", 11, 150, 25, "Rare", false));
         Monsters.Add(new Monster(MONSTER_ID_FUNGLING, "Fungling", 25, 340, 40, "Rare", false));
         Monsters.Add(new Monster(MONSTER_ID_FOREST_ENT, "Forest Ent", 40, 625, 75, "Epic", false));
-        Monsters.Add(new Monster(MONSTER_ID_THE_WITCH, "The Witch", 50, 10000, 500, "Legendary", true));
-        Monsters.Add(new Monster(MONSTER_ID_GELATINOUS_CUBE, "Gelatinous Cube", 100, 6500, 150, "Legendary", false));
-        Monsters.Add(new Monster(MONSTER_ID_MICHELON, "Michelon", 10, 5001, 13, "Mythic", true));
+        Monsters.Add(new Monster(MONSTER_ID_THE_WITCH, "The Witch", 50, 2000, 500, "Legendary", true));
+        Monsters.Add(new Monster(MONSTER_ID_GELATINOUS_CUBE, "Gelatinous Cube", 75, 5000, 150, "Legendary", false));
+        Monsters.Add(new Monster(MONSTER_ID_MICHELON, "Michelon", 10, 6767, 13, "Mythic", true));
         Monsters.Add(new Monster(MONSTER_ID_KING_MICHELON_VIII, "King Michelon VIII", 200, 100000, 800000000, null, true));
     
     }
@@ -184,10 +192,10 @@ public static class World
             new Quest(
                 QUEST_ID_THE_GOBLINS,
                 "Defeat 3 Goblins in the Goblin Camp",
-                "Goblins have been raiding the nearby roads. Head to their camp and defeat 3 Goblin Warriors. Be careful—they may be small, but they're vicious.",
+                $"{RED}The Villager:{RESET} 'Those goblins have been raiding our village for weeks now.\nThey sneak in at night, steal our food, and destroy anything they can't carry away.\nWe're tired of hiding from them.\nIf you're really willing to help us, go to their camp and defeat a few of them.\nMaybe that'll teach them that this village isn't theirs to plunder.'",
                 LOCATION_ID_GOBLIN_CAMP,
                 MonsterByID(MONSTER_ID_GOBLIN_WARRIOR), 3,
-                "You cleared out the Goblin camp! The roads should be safer now. Well done, adventurer. Take these 50 gold pieces as your reward.",
+                $"{RED}The Villager:{RESET} 'You actually did it! Maybe those little monsters will think twice before coming back here.\nThere's something else I should tell you, though.\nLately, people have been whispering about a troll living somewhere around the abandoned castle, which is past the Goblin Camp.\nI don't know if it's true, but if you're heading that way, you should probably keep your guard up.'",
                 50, true
                 );
         
@@ -195,66 +203,66 @@ public static class World
             new Quest(
                 QUEST_ID_THE_RATS,
                 "Defeat 3 Terror Rats in the Abandoned Castle",
-                "Something has been scurrying through the Abandoned Castle. Terror Rats have made the ruins their nest. Defeat 3 of them and put an end to the infestation.",
+                $"{RED}The Troll:{RESET} 'What are you doing here?\nI've lived in these ruins ever since the old king died, and I've had enough trouble without strangers wandering around.\nEver since his death, the rats around here have changed.\nThey're bigger, more aggressive, and they're multiplying faster than I can deal with them.\nKill a few of them for me, and maybe I can finally have some peace around here.'",
                 LOCATION_ID_ABANDONED_CASTLE,
                 MonsterByID(MONSTER_ID_TERROR_RAT), 3,
-                "The Terror Rats are gone! The castle is a little less terrifying now. Here's 50 gold for your trouble.",
-                50, false
+                $"{RED}The Troll:{RESET} 'Good. Maybe now I can finally get some sleep without those filthy rats crawling around everywhere.\nSince you've helped me, I'll tell you something you might find useful.\nThere's a witch who lives deeper into the island.\nShe lives in a hut past the Mushroom fields and the Giant Forest directly west from here.\nShe's evil, but she knows things that nobody else does.\nIf you want to know what happened to this island, or what really happened to the king, she may be the one you need to find.'",
+                100, false
                 );
 
         Quest theFunglings =
             new Quest(
                 QUEST_ID_THE_FUNGLINGS,
                 "Defeat a Fungling in the Mushroom Fields",
-                "Strange creatures have been spotted among the mushrooms. Find the Mushroom Fields and defeat a Fungling before it spreads any further.",
+                $"{RED}The Caterpillar:{RESET} 'I'm starving!\nThose mushrooms used to be my favorite food, but now they've gone completely mad!\nThey've started walking around and fighting back!\nI'm usually fast enough to escape anything that tries to eat me, but I can't outrun those things anymore.\nThere's one Fungling nearby that's been eating all the mushrooms before I can get to them.\nPlease, kill it for me!\nI just want to eat my dinner in peace.'",
                 LOCATION_ID_MUSHROOM_FIELDS,
                 MonsterByID(MONSTER_ID_FUNGLING), 1,
-                $"The Fungling has been defeated! The Mushroom Fields are safe for now. You've earned yourself 50 gold.",
-                50, true
+                $"{RED}The Caterpillar:{RESET} 'You did it!\nFinally, I can eat in peace again!\nI can't thank you enough.\nNow if you'll excuse me, I've got some catching up to do.'",
+                70, true
                 );
         
         Quest TheWoodpecker =
             new Quest(
                 QUEST_ID_THE_WOODPECKER,
                 "Defeat a Forest Ent in the Giant Forest",
-                $"An ancient Forest Ent has become hostile and is blocking the paths through the Giant Forest. Defeat it so travelers can pass safely once again.",
+                $"{RED}The Woodpecker:{RESET} 'Have you seen what happened to my home?!\nThese trees used to be perfectly normal, and then they suddenly came to life!\nNow the whole forest is full of walking trees, and my home is gone!\nI need somewhere to live, but I can't build a new home while these things are stomping around everywhere.\nThere's a Forest Ent nearby that's causing me the most trouble.\nCould you take care of it for me?\nOnce it's gone, I can finally build myself a new home.'",
                 LOCATION_ID_GIANT_FOREST,
                 MonsterByID(MONSTER_ID_FOREST_ENT), 1,
-                $"The Forest Ent has fallen. The forest paths are open again. You've earned 50 gold for your courage.",
-                50, true
+                $"{RED}The Woodpecker:{RESET} 'You actually did it!\nThank you!\nNow I can finally build myself a new home without worrying about some giant tree walking away with it.\nI owe you one.'",
+                80, true
                 );
         
         Quest TheWitch =
             new Quest(
                 QUEST_ID_THE_WITCH,
                 "Defeat the witch",
-                $"A mysterious witch has been seen lurking around the Mushroom Fields. No one knows what she's planning. Find her and defeat her before she causes trouble.",
+                $"{RED}The Witch:{RESET} 'You dare enter my home without permission?\nI've had enough of foolish intruders thinking they can simply walk into my hut.\nYou should have turned around while you had the chance.\nNow you'll learn why people fear me.'",
                 LOCATION_ID_MUSHROOM_FIELDS,
                 MonsterByID(MONSTER_ID_THE_WITCH), 1,
-                $"The witch has been defeated! Whatever dark plans she had are over. Take these 50 gold pieces—you've earned them.",
-                50, false
+                $"{RED}The Witch:{RESET} 'You... defeated me?\nI must admit, I misjudged you.\nPerhaps you're not as foolish as I thought.\nYou seek answers about the king, don't you?\nThen listen carefully.\nThe spirit of the dead king has been hiding in the Lost Graveyard.\nThe graveyard lies beyond the Murky Swamp, north of Ladybug Town.\nIf you want to reach him, that is where you must go.\nAnd since you've proven yourself worthy, I've opened my shop to you.\nI have potions that may prove useful in your fight against the king.\nYou'll need all the help you can get.'",
+                25, false
                 );
         
         Quest TheSlime =
             new Quest(
                 QUEST_ID_THE_SLIME,
                 "Defeat 3 Gelatinous Cubes in the Murky Swamp",
-                $"The Murky Swamp is crawling with strange, hungry creatures. Three Gelatinous Cubes have been spotted near the paths. Destroy them before anyone else gets swallowed.",
+                $"{RED}The Slime:{RESET} 'Please, you have to help me!\nSeveral gelatinous cubes broke into my home and stole my family's heirlooms!\nThose items have been passed down through my family for generations.\nI tried to get them back myself, but those cubes are much tougher than they look.\nPlease, defeat them and bring my family's heirlooms back to me.\nI'll make sure you're rewarded for your trouble.'",
                 LOCATION_ID_MURKY_SWAMP,
                 MonsterByID(MONSTER_ID_GELATINOUS_CUBE), 3,
-                $"All three Gelatinous Cubes are gone! The swamp paths are safer now. Here's 50 gold for dealing with the problem.",
-                50, true
+                $"{RED}The Slime:{RESET} 'You brought them back!\nI can't thank you enough.\nMy family's heirlooms are finally safe again.\nYou've done me a great favor, so I'll let you in on a little secret.\nI've been keeping a shop hidden away from the rest of the island.\nNormally, I wouldn't let anyone know about it, but you've earned my trust.\nCome take a look.\nI have some of the strongest armour you'll find anywhere on the island.'",
+                185, true
                 );
 
         Quest TheKing =
             new Quest(
                 QUEST_ID_THE_KING,
                 "Defeat King Michelon VIII",
-                $"King Michelon VIII has risen from his grave and now rules the Lost Graveyard once more. Whatever brought him back, he must be stopped. Defeat him and put the dead king to rest.",
+                $"{RED}King Michelon:{RESET} 'So... you finally made your way to me.\nI must congratulate you.\nFew have come this far, and even fewer have survived the journey.\nBut your journey ends here.\nYou will die, just like the rest of them.\nThis island belongs to me!\nIt always has, and it always will.\nNo one has the right to take it from me.\nI was betrayed and murdered by the very people I ruled over.\nThey took my life, stole my kingdom, and left me to rot in the ground.\nBut death did not make me forget.\nIt only made my hatred stronger.\nNow the people of this island will suffer for what they have done.\nThey will taste my wicked revenge.\nAnd you...\nYour journey ends HERE.'",
                 LOCATION_ID_LOST_GRAVEYARD,
                 MonsterByID(MONSTER_ID_KING_MICHELON_VIII), 1,
-                $"King Michelon VIII has finally fallen. The Lost Graveyard is silent once more. Few adventurers could have accomplished what you just did. Accept these 50 gold pieces as your reward.",
-                50, false
+                "",
+                0, false
                 );
 
 
