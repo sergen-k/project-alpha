@@ -54,9 +54,9 @@ public static class World
     public const int MONSTER_ID_MICHELON = 7;
     public const int MONSTER_ID_KING_MICHELON_VIII = 8;
 
-    public const int QUEST_ID_THE_VILLAGER = 1;
-    public const int QUEST_ID_THE_TROLL = 2;
-    public const int QUEST_ID_THE_GRASSHOPPER = 3;
+    public const int QUEST_ID_THE_GOBLINS = 1;
+    public const int QUEST_ID_THE_RATS = 2;
+    public const int QUEST_ID_THE_FUNGLINGS = 3;
     public const int QUEST_ID_THE_WOODPECKER = 4;
     public const int QUEST_ID_THE_WITCH = 5;
     public const int QUEST_ID_THE_SLIME = 6;
@@ -180,36 +180,36 @@ public static class World
 
     public static void PopulateQuests()
     {
-        Quest TheVillager =
+        Quest TheGoblinCamp =
             new Quest(
-                QUEST_ID_THE_VILLAGER,
+                QUEST_ID_THE_GOBLINS,
                 "Defeat 3 Goblins in the Goblin Camp",
-                $"(insert quest dialogue)",
+                "Goblins have been raiding the nearby roads. Head to their camp and defeat 3 Goblin Warriors. Be careful—they may be small, but they're vicious.",
                 LOCATION_ID_GOBLIN_CAMP,
                 MonsterByID(MONSTER_ID_GOBLIN_WARRIOR), 3,
-                $"(insert quest completion dialogue)",
+                "You cleared out the Goblin camp! The roads should be safer now. Well done, adventurer. Take these 50 gold pieces as your reward.",
                 50, true
                 );
         
-        Quest TheTroll =
+        Quest theRats =
             new Quest(
-                QUEST_ID_THE_TROLL,
+                QUEST_ID_THE_RATS,
                 "Defeat 3 Terror Rats in the Abandoned Castle",
-                $"(insert quest dialogue)",
+                "Something has been scurrying through the Abandoned Castle. Terror Rats have made the ruins their nest. Defeat 3 of them and put an end to the infestation.",
                 LOCATION_ID_ABANDONED_CASTLE,
                 MonsterByID(MONSTER_ID_TERROR_RAT), 3,
-                $"(insert quest completion dialogue)",
+                "The Terror Rats are gone! The castle is a little less terrifying now. Here's 50 gold for your trouble.",
                 50, false
                 );
 
-        Quest TheGrasshopper =
+        Quest theFunglings =
             new Quest(
-                QUEST_ID_THE_GRASSHOPPER,
+                QUEST_ID_THE_FUNGLINGS,
                 "Defeat a Fungling in the Mushroom Fields",
-                $"(insert quest dialogue)",
+                "Strange creatures have been spotted among the mushrooms. Find the Mushroom Fields and defeat a Fungling before it spreads any further.",
                 LOCATION_ID_MUSHROOM_FIELDS,
                 MonsterByID(MONSTER_ID_FUNGLING), 1,
-                $"(insert quest completion dialogue)",
+                $"The Fungling has been defeated! The Mushroom Fields are safe for now. You've earned yourself 50 gold.",
                 50, true
                 );
         
@@ -217,10 +217,10 @@ public static class World
             new Quest(
                 QUEST_ID_THE_WOODPECKER,
                 "Defeat a Forest Ent in the Giant Forest",
-                $"(insert quest dialogue)",
+                $"An ancient Forest Ent has become hostile and is blocking the paths through the Giant Forest. Defeat it so travelers can pass safely once again.",
                 LOCATION_ID_GIANT_FOREST,
                 MonsterByID(MONSTER_ID_FOREST_ENT), 1,
-                $"(insert quest completion dialogue)",
+                $"The Forest Ent has fallen. The forest paths are open again. You've earned 50 gold for your courage.",
                 50, true
                 );
         
@@ -228,10 +228,10 @@ public static class World
             new Quest(
                 QUEST_ID_THE_WITCH,
                 "Defeat the witch",
-                $"(insert quest dialogue)",
+                $"A mysterious witch has been seen lurking around the Mushroom Fields. No one knows what she's planning. Find her and defeat her before she causes trouble.",
                 LOCATION_ID_MUSHROOM_FIELDS,
                 MonsterByID(MONSTER_ID_THE_WITCH), 1,
-                $"(insert quest completion dialogue)",
+                $"The witch has been defeated! Whatever dark plans she had are over. Take these 50 gold pieces—you've earned them.",
                 50, false
                 );
         
@@ -239,10 +239,10 @@ public static class World
             new Quest(
                 QUEST_ID_THE_SLIME,
                 "Defeat 3 Gelatinous Cubes in the Murky Swamp",
-                $"(insert quest dialogue)",
+                $"The Murky Swamp is crawling with strange, hungry creatures. Three Gelatinous Cubes have been spotted near the paths. Destroy them before anyone else gets swallowed.",
                 LOCATION_ID_MURKY_SWAMP,
                 MonsterByID(MONSTER_ID_GELATINOUS_CUBE), 3,
-                $"(insert quest completion dialogue)",
+                $"All three Gelatinous Cubes are gone! The swamp paths are safer now. Here's 50 gold for dealing with the problem.",
                 50, true
                 );
 
@@ -250,17 +250,17 @@ public static class World
             new Quest(
                 QUEST_ID_THE_KING,
                 "Defeat King Michelon VIII",
-                $"(insert quest dialogue)",
+                $"King Michelon VIII has risen from his grave and now rules the Lost Graveyard once more. Whatever brought him back, he must be stopped. Defeat him and put the dead king to rest.",
                 LOCATION_ID_LOST_GRAVEYARD,
                 MonsterByID(MONSTER_ID_KING_MICHELON_VIII), 1,
-                $"(insert quest completion dialogue)",
+                $"King Michelon VIII has finally fallen. The Lost Graveyard is silent once more. Few adventurers could have accomplished what you just did. Accept these 50 gold pieces as your reward.",
                 50, false
                 );
 
 
-        Quests.Add(TheVillager);
-        Quests.Add(TheTroll);
-        Quests.Add(TheGrasshopper);
+        Quests.Add(TheGoblinCamp);
+        Quests.Add(theRats);
+        Quests.Add(theFunglings);
         Quests.Add(TheWoodpecker);
         Quests.Add(TheWitch);
         Quests.Add(TheSlime);
@@ -273,13 +273,13 @@ public static class World
         Location home = new Location(LOCATION_ID_HOME, "Home", null, null, null);
         home.AddSurrounding("This was supposed to be home...\nThe place where you grew up, where everything felt safe.\nNow the streets are empty and your home has been torn apart by monsters.\nYou still remember the night they came.\nPeople ran in every direction, and you barely managed to escape.\nYou don't know what happened to everyone else.\nAll you know is that you can't stay here anymore.\nWith nothing left to protect, you take the old blade your family kept hidden away.\nIt's not much... but it's better than nothing.");
 
-        Location ladybugTown = new Location(LOCATION_ID_LADYBUG_TOWN, "Ladybug Town", QuestByID(QUEST_ID_THE_VILLAGER), null, ShopByID(SHOP_ID_LADYBUG_MERCHANT));
+        Location ladybugTown = new Location(LOCATION_ID_LADYBUG_TOWN, "Ladybug Town", QuestByID(QUEST_ID_THE_GOBLINS), null, ShopByID(SHOP_ID_LADYBUG_MERCHANT));
         ladybugTown.AddSurrounding("Ladybug Town is still standing.\nPeople still live here, shops are still open, and the streets are usually full of life.\nBut nobody here feels safe anymore.\nThe goblins regularly sneak into town, stealing food, weapons, and anything else they can carry.\nThey aren't working for Michelon.\nThey're simply taking advantage of the chaos he's left behind.\nEvery time the goblins come, the town loses a little more.\nThe people here are getting tired of rebuilding what gets destroyed.");
         Location goblinCamp = new Location(LOCATION_ID_GOBLIN_CAMP, "Goblin Camp", null, MonsterByID(MONSTER_ID_GOBLIN_WARRIOR), ShopByID(SHOP_ID_GOBLIN_SALESMAN));
         goblinCamp.AddSurrounding("So this is where the goblins have been hiding.\nThey're not part of Michelon's army.\nThey've simply seen an opportunity and decided to take it.\nWhile the rest of the island is distracted by the monsters, the goblins have been raiding towns and taking whatever they want.\nTheir camp is filled with stolen food, weapons, and belongings.\nSome of the things here look like they came from Ladybug Town.\nYou've seen what their raids have done to the people there.\nMaybe it's time someone stopped them.");
-        Location abandonedCastle = new Location(LOCATION_ID_ABANDONED_CASTLE, "Abandoned Castle", QuestByID(QUEST_ID_THE_TROLL), MonsterByID(MONSTER_ID_TERROR_RAT), null);
+        Location abandonedCastle = new Location(LOCATION_ID_ABANDONED_CASTLE, "Abandoned Castle", QuestByID(QUEST_ID_THE_RATS), MonsterByID(MONSTER_ID_TERROR_RAT), null);
         abandonedCastle.AddSurrounding("So this is the old castle of King Michelon.\nIt has been abandoned since his death, but the place still feels strangely alive.\nDust covers the halls, and most of the furniture has been left exactly where it was.\nPaintings of Michelon line the walls.\nSome show him as a respected king.\nOthers have been damaged so badly that you can barely recognize his face.\nWhatever happened here must have changed him.\nMaybe the truth about his death is still hidden somewhere inside these walls.");
-        Location mushroomFields = new Location(LOCATION_ID_MUSHROOM_FIELDS, "Mushroom Fields", QuestByID(QUEST_ID_THE_GRASSHOPPER), MonsterByID(MONSTER_ID_FUNGLING), null);
+        Location mushroomFields = new Location(LOCATION_ID_MUSHROOM_FIELDS, "Mushroom Fields", QuestByID(QUEST_ID_THE_FUNGLINGS), MonsterByID(MONSTER_ID_FUNGLING), null);
         mushroomFields.AddSurrounding("You've never seen mushrooms this large before.\nThey cover the fields in every direction, growing over rocks, trees, and even old ruins.\nThe air is strangely quiet here.\nYou remember hearing stories about this place when you were younger.\nPeople said the mushrooms appeared after the king was killed.\nNobody knows why they started growing.\nSome say they're harmless.\nOthers say that anyone who stays here too long starts seeing things that aren't really there.\nYou aren't planning on sticking around to find out.");
         Location giantForest = new Location(LOCATION_ID_GIANT_FOREST, "Giant Forest", QuestByID(QUEST_ID_THE_WOODPECKER), MonsterByID(MONSTER_ID_FOREST_ENT), null);
         giantForest.AddSurrounding("The trees here are enormous.\nTheir branches stretch so high that you can barely see the sky.\nThe forest is strangely quiet, but you can constantly hear something moving somewhere in the distance.\nYou remember people warning you never to come here alone.\nThey said the forest was home to creatures that even the monsters avoid.\nWith everything that's happened to the island, you aren't sure what you'll find anymore.\nStill, there's no other way forward.\nYou tighten your grip around your old blade and step deeper into the forest.");
@@ -397,7 +397,7 @@ public static class World
     {
         foreach (Quest quest in Quests)
         {
-            if (quest.ID == id)
+            if (quest.QuestID == id)
             {
                 return quest;
             }
