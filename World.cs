@@ -271,23 +271,24 @@ public static class World
     {
         // Create each location
         Location home = new Location(LOCATION_ID_HOME, "Home", null, null, null);
+        home.AddSurrounding("This was supposed to be home...\nThe place where you grew up, where everything felt safe.\nNow the streets are empty and your home has been torn apart by monsters.\nYou still remember the night they came.\nPeople ran in every direction, and you barely managed to escape.\nYou don't know what happened to everyone else.\nAll you know is that you can't stay here anymore.\nWith nothing left to protect, you take the old blade your family kept hidden away.\nIt's not much... but it's better than nothing.");
 
         Location ladybugTown = new Location(LOCATION_ID_LADYBUG_TOWN, "Ladybug Town", QuestByID(QUEST_ID_THE_VILLAGER), null, ShopByID(SHOP_ID_LADYBUG_MERCHANT));
-        
+        ladybugTown.AddSurrounding("Ladybug Town is still standing.\nPeople still live here, shops are still open, and the streets are usually full of life.\nBut nobody here feels safe anymore.\nThe goblins regularly sneak into town, stealing food, weapons, and anything else they can carry.\nThey aren't working for Michelon.\nThey're simply taking advantage of the chaos he's left behind.\nEvery time the goblins come, the town loses a little more.\nThe people here are getting tired of rebuilding what gets destroyed.");
         Location goblinCamp = new Location(LOCATION_ID_GOBLIN_CAMP, "Goblin Camp", null, MonsterByID(MONSTER_ID_GOBLIN_WARRIOR), ShopByID(SHOP_ID_GOBLIN_SALESMAN));
-
+        goblinCamp.AddSurrounding("So this is where the goblins have been hiding.\nThey're not part of Michelon's army.\nThey've simply seen an opportunity and decided to take it.\nWhile the rest of the island is distracted by the monsters, the goblins have been raiding towns and taking whatever they want.\nTheir camp is filled with stolen food, weapons, and belongings.\nSome of the things here look like they came from Ladybug Town.\nYou've seen what their raids have done to the people there.\nMaybe it's time someone stopped them.");
         Location abandonedCastle = new Location(LOCATION_ID_ABANDONED_CASTLE, "Abandoned Castle", QuestByID(QUEST_ID_THE_TROLL), MonsterByID(MONSTER_ID_TERROR_RAT), null);
-
+        abandonedCastle.AddSurrounding("So this is the old castle of King Michelon.\nIt has been abandoned since his death, but the place still feels strangely alive.\nDust covers the halls, and most of the furniture has been left exactly where it was.\nPaintings of Michelon line the walls.\nSome show him as a respected king.\nOthers have been damaged so badly that you can barely recognize his face.\nWhatever happened here must have changed him.\nMaybe the truth about his death is still hidden somewhere inside these walls.");
         Location mushroomFields = new Location(LOCATION_ID_MUSHROOM_FIELDS, "Mushroom Fields", QuestByID(QUEST_ID_THE_GRASSHOPPER), MonsterByID(MONSTER_ID_FUNGLING), null);
-
+        mushroomFields.AddSurrounding("You've never seen mushrooms this large before.\nThey cover the fields in every direction, growing over rocks, trees, and even old ruins.\nThe air is strangely quiet here.\nYou remember hearing stories about this place when you were younger.\nPeople said the mushrooms appeared after the king was killed.\nNobody knows why they started growing.\nSome say they're harmless.\nOthers say that anyone who stays here too long starts seeing things that aren't really there.\nYou aren't planning on sticking around to find out.");
         Location giantForest = new Location(LOCATION_ID_GIANT_FOREST, "Giant Forest", QuestByID(QUEST_ID_THE_WOODPECKER), MonsterByID(MONSTER_ID_FOREST_ENT), null);
-
+        giantForest.AddSurrounding("The trees here are enormous.\nTheir branches stretch so high that you can barely see the sky.\nThe forest is strangely quiet, but you can constantly hear something moving somewhere in the distance.\nYou remember people warning you never to come here alone.\nThey said the forest was home to creatures that even the monsters avoid.\nWith everything that's happened to the island, you aren't sure what you'll find anymore.\nStill, there's no other way forward.\nYou tighten your grip around your old blade and step deeper into the forest.");
         Location witchesHut = new Location(LOCATION_ID_WITCHES_HUT, "Witches Hut", QuestByID(QUEST_ID_THE_WITCH), null, ShopByID(SHOP_ID_THE_WITCH));
-        
+        witchesHut.AddSurrounding("A small wooden hut sits between the trees.\nYou've heard stories about the witch who lives here for as long as you can remember.\nSome people say she's dangerous.\nOthers say she's one of the few people who understands what happened to King Michelon.\nThe door is unlocked.\nInside, the walls are covered with strange symbols, bottles, and old books.\nYou notice the same name written across several of them.\nMichelon.\nWhatever happened to the king, this witch probably knows more than she's willing to tell.");
         Location murkySwamp = new Location(LOCATION_ID_MURKY_SWAMP, "Murky Swamp", QuestByID(QUEST_ID_THE_SLIME), MonsterByID(MONSTER_ID_GELATINOUS_CUBE), ShopByID(SHOP_ID_THE_SLIME_SMITH));
-        
+        murkySwamp.AddSurrounding("The swamp is covered in thick fog.\nThe water is dark, the ground sinks beneath your feet, and the smell is almost unbearable.\nNothing here looks healthy anymore.\nDead trees stick out of the water, and strange plants grow around the edges of the swamp.\nPeople used to avoid this place even before the king's death.\nNow it's become even worse.\nYou can hear something moving through the water nearby.\nWhatever lives here, you hope it hasn't noticed you yet.");
         Location lostGraveyard = new Location(LOCATION_ID_LOST_GRAVEYARD, "Lost Graveyard", QuestByID(QUEST_ID_THE_KING), null, null);
-
+        lostGraveyard.AddSurrounding("The Lost Graveyard is older than anyone can remember.\nHundreds of graves cover the area, but most of the names have faded away.\nNobody knows who many of these people were.\nYou walk past the graves until you notice one that looks different from the rest.\nThe name on the stone is still clearly visible.\nMichelon.\nThe grave is completely silent.\nThen, for just a moment, you hear a voice behind you.\n\"You finally came.\"");
         // Link the locations together
         home.LocationToNorth = ladybugTown;
 
@@ -323,6 +324,8 @@ public static class World
         Locations.Add(witchesHut);
         Locations.Add(murkySwamp);
         Locations.Add(lostGraveyard);
+
+
     }
 
     public static Location LocationByID(int id)

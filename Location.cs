@@ -40,8 +40,9 @@ public class Location
         Program.Refresh();
         if (!SeenLocation)
         {
-            Console.WriteLine("You see, stuff! (WIP)");
+            Console.WriteLine(SurroundingHere);
             SeenLocation = true;
+            Console.WriteLine();
             World.Continue();
         }
         while (true)

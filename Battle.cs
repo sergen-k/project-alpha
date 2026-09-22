@@ -10,6 +10,9 @@ public class Battle
     int PlayersDamage;
     int MonstersDamage;
 
+    bool HasDamageBoost = false;
+    bool HasUsedPotion = false;
+
     Quest? quest;
 
     // Static startbattle method, callable without an instance of the class
@@ -197,9 +200,40 @@ public class Battle
             Console.WriteLine($"{World.BOLD}{Monster.Name}{World.RESET} {World.GRAY}MISSED{World.RESET} and did {World.RED}0 DMG{World.RESET}");
         } else
         {
-            MonstersDamage = Program.Player.TakeDamage(MonstersDamage);
-            ConstructMenu();
-            Console.WriteLine($"{World.BOLD}{Monster.Name}{World.RESET} {World.GREEN}HIT{World.RESET} and did {World.RED}{MonstersDamage} DMG!{World.RESET}");
+            if (Monster.IsBoss && World.RandomGenerator.Next(100) > 73 || !Monster.IsBoss || HasUsedPotion)
+            {
+                MonstersDamage = Program.Player.TakeDamage(MonstersDamage);
+                if (HasDamageBoost)
+                {
+                    MonstersDamage *= 4;
+                    HasDamageBoost = false;
+                }
+                ConstructMenu();
+                Console.WriteLine($"{World.BOLD}{Monster.Name}{World.RESET} {World.GREEN}HIT{World.RESET} and did {World.RED}{MonstersDamage} DMG!{World.RESET}");
+                HasUsedPotion = false;
+            }
+            else
+            {
+                if (World.RandomGenerator.Next(100) > 48)
+                {
+                    ConstructMenu();
+                    Monster.CurrentHitPoints += 2500;
+                    if (Monster.CurrentHitPoints > Monster.MaximumHitPoints)
+                    {
+                        Monster.CurrentHitPoints = Monster.MaximumHitPoints;
+                    }
+                    Console.WriteLine($"{World.RED}{Monster.Name} has used a Heal Potion");
+                    Console.WriteLine($"{World.RED}+2500 HP");
+                }
+                else
+                {
+                    ConstructMenu();
+                    HasDamageBoost = true;
+                    Console.WriteLine($"{World.RED}{Monster.Name} has used a Strong Potion");
+                    Console.WriteLine($"{World.RED}Will do 4x damage next attack.");
+                }
+                HasUsedPotion = true;
+            }
         }
         MonstersDamage = 0; 
         if (Program.Player.IsDead())
