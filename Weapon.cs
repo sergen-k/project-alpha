@@ -5,6 +5,8 @@ public class Weapon
     public int MaximumDamage;
     public string MoveName;
     public string Rarity;
+    public int Quality = 50;
+    public int CurrentDamage;
 
     public Weapon(int id, string name, string moveName, int maximumDamage)
     {
@@ -12,12 +14,23 @@ public class Weapon
         Name = name;
         MoveName = moveName;
         MaximumDamage = maximumDamage;
-        Rarity = (id) switch
+        CurrentDamage = (int)(maximumDamage*0.5);
+        Rarity = id switch
         {
             <= 3 => "Common",
             <= 6 => "Rare",
-            <= 8 => "Epic",
-            <= 10 => "Legendary",
+            <= 9 => "Epic",
+            <= 12 => "Legendary",
+            <= 15 => "Mythical"
         };
+    }
+
+    public Weapon(Weapon weapon) : this(weapon.ID, weapon.Name, weapon.MoveName, weapon.MaximumDamage)
+    {}
+
+    public void SetQuality()
+    {
+        Quality = World.RandomGenerator.Next(50,101);
+        CurrentDamage = Quality*MaximumDamage/100;
     }
 }

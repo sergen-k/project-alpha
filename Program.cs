@@ -46,7 +46,7 @@
             validDirs.Add(dir[0].ToString().ToLower());
         }
         Console.WriteLine();
-        Console.WriteLine($"{World.YELLOW}Fill in {World.RESET}N{World.DIM}/{World.RESET}S{World.DIM}/{World.RESET}E{World.DIM}/{World.RESET}W{World.YELLOW} to travel:{World.RESET}");
+        Console.WriteLine($"{World.YELLOW}{World.BOLD}Fill in {World.RESET}{World.BOLD}{(validDirs.Contains("n") ? World.GREEN : World.DIM)}N{World.RESET}/{World.BOLD}{(validDirs.Contains("s") ? World.GREEN : World.DIM)}S{World.RESET}/{World.BOLD}{(validDirs.Contains("e") ? World.GREEN : World.DIM)}E{World.RESET}/{World.BOLD}{(validDirs.Contains("w") ? World.GREEN : World.DIM)}W{World.YELLOW} to travel:{World.RESET}");
 
         // let the user select and fetch Location based on first char of direction.
         string selection = World.ChooseOption(validDirs, "Invalid location");
@@ -88,9 +88,9 @@
 
         Console.Clear();
 
-        Console.WriteLine($"{World.RED}The spirit of the assassinated king, {World.BOLD}Michelon,{World.RESET}{World.RED} has grown consumed by {World.BOLD}Vengeance.{World.RESET}");
-        Console.WriteLine($"{World.RED}He has unleashed a horde of {World.BOLD}Wicked{World.RESET}{World.RED} monsters, spreading {World.BOLD}Chaos and Destruction{World.RESET}{World.RED} across the island.");
-        Console.WriteLine($"{World.RED}They have overrun your {World.BOLD}Home{World.RESET}{World.RED}, leaving you no choice but to seize an {World.BOLD}Old Blade{World.RESET}{World.RED} and flee.{World.RESET}");
+        Console.WriteLine($"{World.GREEN}The spirit of the assassinated king, {World.BOLD}Michelon,{World.RESET}{World.GREEN} has grown consumed by {World.BOLD}Vengeance.{World.RESET}");
+        Console.WriteLine($"{World.GREEN}He has unleashed a horde of {World.BOLD}Wicked{World.RESET}{World.GREEN} monsters, spreading {World.BOLD}Chaos and Destruction{World.RESET}{World.GREEN} across the island.");
+        Console.WriteLine($"{World.GREEN}They have overrun your {World.BOLD}Home{World.RESET}{World.GREEN}, leaving you no choice but to seize an {World.BOLD}Old Blade{World.RESET}{World.GREEN} and flee.{World.RESET}");
 
         World.Continue();
 
@@ -126,7 +126,7 @@
         Console.Clear();
         Console.WriteLine($"{World.GREEN}NAME:{World.RESET} {Player.Name}");
         Console.WriteLine($"{World.GREEN}HP:{World.RESET} {Player.CurrentHitPoints}/{Player.MaximumHitPoints}");
-        Console.WriteLine($"{World.GREEN}WEAPON:{World.RESET} {Player.CurrentWeapon.Name} - {World.BOLD}{Player.CurrentWeapon.Rarity}{World.RESET} {World.DIM}{World.RED}({Player.CurrentWeapon.MaximumDamage} DMG){World.RESET}");
+        Console.WriteLine($"{World.GREEN}WEAPON:{World.RESET} {Player.CurrentWeapon.Name} - {World.BOLD}{Player.CurrentWeapon.Rarity}{World.RESET} {World.DIM}{World.RED}({Player.CurrentWeapon.CurrentDamage} DMG){World.RESET} {World.RESET}{World.YELLOW}{World.DIM}(Quality: {Player.CurrentWeapon.Quality}%){World.RESET}");
         Console.WriteLine($"{World.GREEN}ARMOUR:{World.RESET} {Player.CurrentArmour.Name} - {World.BOLD}{Player.CurrentArmour.Rarity}{World.RESET} {World.DIM}{World.BLUE}({Player.CurrentArmour.Defense}% DEF){World.RESET}");
         Console.WriteLine($"{World.GREEN}GOLD:{World.RESET} {Player.Gold}");
         Console.WriteLine($"{World.GREEN}LOCATION:{World.RESET} {Player.CurrentLocation.Name}");
@@ -137,7 +137,7 @@
             Console.WriteLine($" {World.RED}- {Player.CurrentQuest.Description}{World.RESET}");
             if(Player.CurrentQuest.CurrentMonstersKilled >= Player.CurrentQuest.MonsterCount)
             {
-                Console.WriteLine($"{World.GREEN}{World.BOLD}FINISHED! Return to {World.LocationByID(Player.CurrentQuest.RelevantLocationID).Name}{World.RESET}");
+                Console.WriteLine($"{World.GREEN}{World.BOLD}FINISHED! Return to {World.Locations.Find(l => l?.QuestAvailableHere == Player.CurrentQuest).Name}{World.RESET}");
                 Player.CurrentQuest.status = QuestStatus.finished;
             }
             else

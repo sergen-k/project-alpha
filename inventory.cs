@@ -128,7 +128,7 @@ public class InventoryManager
         int index = 2;
         foreach (Weapon weapon in Weapons)
         { // Print out all weapons
-                Console.WriteLine($"{World.BLUE}{index}.{World.RESET} {weapon.Name} - {World.BOLD}{weapon.Rarity}{World.RESET} {World.RED}{World.DIM}({weapon.MaximumDamage} DMG){World.RESET}");
+                Console.WriteLine($"{World.BLUE}{index}.{World.RESET} {weapon.Name} - {World.BOLD}{weapon.Rarity}{World.RESET} {World.RED}{World.DIM}({weapon.CurrentDamage} DMG){World.RESET}{World.YELLOW}{World.DIM}(Quality: {weapon.Quality}%){World.RESET}");
                 index += 1;
         }
         // choose a number from 1 to the amount of weapons you have

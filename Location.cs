@@ -18,6 +18,8 @@ public class Location
 
     public Location? LocationToWest;
 
+    public bool SeenLocation = false;
+    public static bool MurkySwampUnlocked = false;
 
     public Location(int id, string name, Quest quest, Monster monster, Shop shop)
     {
@@ -36,44 +38,56 @@ public class Location
     public void CheckSurroundings()
     {
         Program.Refresh();
-        Console.WriteLine("You see, stuff! (WIP)");
-        World.Continue();
+        if (!SeenLocation)
+        {
+            Console.WriteLine("You see, stuff! (WIP)");
+            SeenLocation = true;
+            World.Continue();
+        }
         while (true)
         {
             // TODO - add surroundings for each area
             Program.Refresh();
             Console.WriteLine($"{World.GREEN}---Surroundings---{World.RESET}");
             Console.WriteLine($"{World.BLUE}1.{World.RED} RETURN{World.RESET}");
-            List<string> Options = ["1"];
+            Dictionary<String, String> Options = new()
+            {
+                {"1","Return"}
+            };
+            int index = 1;
+
             if (MonsterLivingHere != null)
             {
-                Console.WriteLine($"{World.BLUE}B.{World.RESET} Battle Monster{World.RESET}");
-                Options.Add("b");
+                index++;
+                Console.WriteLine($"{World.BLUE}{index}.{World.RESET} Battle Monster{World.RESET}");
+                Options[$"{index}"] = "Monster";
             }
             if (QuestAvailableHere != null)
             {
-                Console.WriteLine($"{World.BLUE}Q. {World.RESET}Check Quest");
-                Options.Add("q");
+                index++;
+                Console.WriteLine($"{World.BLUE}{index}. {World.RESET}Check Quest");
+                Options[$"{index}"] = "Quest";
             }
             if (ShopHere != null)
             {
-                Console.WriteLine($"{World.BLUE}S. {World.RESET}Enter {ShopHere.Name}'s Shop");
-                Options.Add("s");
+                index++;
+                Console.WriteLine($"{World.BLUE}{index}. {World.RESET}Enter {ShopHere.Name}'s Shop");
+                Options[$"{index}"] = "Shop";
             }
             if (Options.Count == 1)
             {
                 return;
             }
             
-            string option = World.ChooseOption(Options.ToArray());
-            if (option == "1")
+            string option = World.ChooseOption(Options.Keys.ToArray());
+            if (Options[option] == "Return")
                 return;
-            else if (option == "b")
+            else if (Options[option] == "Monster")
             {
                 Program.Refresh();
                 Battle.StartBattle(MonsterLivingHere);
             }
-            else if (option == "q")
+            else if (Options[option] == "Quest")
             {
                 Program.Refresh();
                     if (QuestAvailableHere.status == QuestStatus.pending)
@@ -96,7 +110,7 @@ public class Location
                     }
                         
             }
-            else if (option == "s")
+            else if (Options[option] == "Shop")
             {
                 Program.Refresh();
                 ShopHere.CheckShop();

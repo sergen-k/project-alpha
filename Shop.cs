@@ -4,12 +4,14 @@ public class Shop
     public string Name;
     public string Speech;
     public Dictionary<object, int> Items = new();
+    public bool ShopUnlocked;
 
-    public Shop(int id, string name, string speech)
+    public Shop(int id, string name, string speech, bool shopUnlocked)
     {
         ID = id;
         Name = name;
         Speech = speech;
+        ShopUnlocked = shopUnlocked;
     }
 
     public void AddshopItem(object item, int price)
@@ -29,7 +31,7 @@ public class Shop
         int index = 2;
         foreach (var item in Items)
         { // Print out shop items
-                Console.WriteLine($"{World.BLUE}{index}.{World.RESET} {((dynamic)item.Key).Name} - {World.YELLOW}{item.Value} Gold{World.RESET}");
+                Console.WriteLine($"{World.BLUE}{index}.{World.RESET} {((dynamic)item.Key).Name} - {(Program.Player.Gold >= item.Value ? World.GREEN : World.RED)}{item.Value} Gold{World.RESET}");
                 index += 1;
         }
 

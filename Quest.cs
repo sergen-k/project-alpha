@@ -25,9 +25,10 @@ public class Quest
 
     public QuestStatus status;
 
+    public bool QuestUnlocked;
 
 
-    public Quest(int id, string description, string dialogue, int targetLocation, Monster targetMonster, int monsterCount, string rewardMessage, int reward)
+    public Quest(int id, string description, string dialogue, int targetLocation, Monster targetMonster, int monsterCount, string rewardMessage, int reward, bool questUnlocked)
     {
         ID = id;
         Description = description;
@@ -39,6 +40,7 @@ public class Quest
         CurrentMonstersKilled = 0;
         RewardMessage = rewardMessage;
         Reward = reward;
+        QuestUnlocked = questUnlocked;
     }
 
 
@@ -51,7 +53,7 @@ public class Quest
         if (answer == "y")
             status = QuestStatus.accepted;
         else if (answer == "n")
-            status = QuestStatus.declined;
+            status = QuestStatus.pending;
         return (int)status;
     }
 
@@ -60,6 +62,27 @@ public class Quest
         Console.WriteLine(RewardMessage);
         Program.Player.Gold += Reward;
         Program.Player.CurrentQuest = null;
+        Program.Player.MaximumHitPoints += 50;
+        Program.Player.CurrentHitPoints = Program.Player.MaximumHitPoints;
         Console.WriteLine($"{World.YELLOW}+{Reward} Gold");
+        Console.WriteLine($"{World.RED}+50 Max HP");
+        if (ID == World.QUEST_ID_THE_VILLAGER)
+        {
+            World.QuestByID(World.QUEST_ID_THE_TROLL).QuestUnlocked = true;
+        }
+        else if (ID == World.QUEST_ID_THE_TROLL)
+        {
+            World.QuestByID(World.QUEST_ID_THE_WITCH).QuestUnlocked = true;
+        }
+        else if (ID == World.QUEST_ID_THE_WITCH)
+        {
+            World.QuestByID(World.QUEST_ID_THE_KING).QuestUnlocked = true;
+            World.ShopByID(World.SHOP_ID_THE_WITCH).ShopUnlocked = true;
+            World.LocationByID(World.LOCATION_ID_LADYBUG_TOWN).LocationToNorth = World.LocationByID(World.LOCATION_ID_MURKY_SWAMP);
+        }
+        else if (ID == World.QUEST_ID_THE_SLIME)
+        {
+            World.ShopByID(World.SHOP_ID_THE_SLIME_SMITH).ShopUnlocked = true;
+        }
     }
 }

@@ -8,9 +8,10 @@ public class Monster
     public int CurrentHitPoints;
     public int GoldDrop;
     public string LootboxRarity;
-    public int LootboxChance;
+    public bool WeaponDropped = false;
+    public bool IsBoss;
 
-    public Monster(int id, string name, int maximumDamage, int maximumHitPoints, int goldDrop, string lootboxRarity, int lootboxChance)
+    public Monster(int id, string name, int maximumDamage, int maximumHitPoints, int goldDrop, string ?lootboxRarity, bool isBoss)
     {
         ID = id;
         Name = name;
@@ -19,6 +20,6 @@ public class Monster
         CurrentHitPoints = maximumHitPoints;
         GoldDrop = goldDrop;
         LootboxRarity = lootboxRarity;
-        LootboxChance = lootboxChance;
+        IsBoss = isBoss;
     }
 }

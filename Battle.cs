@@ -59,7 +59,7 @@ public class Battle
         {
             Console.WriteLine($"{World.BLUE}What will you do?{World.RESET}");
             Console.WriteLine($"{World.BLUE}1.{World.RESET}{World.BOLD} Attack:{World.RESET}");
-            Console.WriteLine($"   {World.DIM}- {Player.CurrentWeapon.MoveName} {World.RESET}{World.DIM}{World.RED}({Player.CurrentWeapon.MaximumDamage} DMG){World.RESET}");
+            Console.WriteLine($"   {World.DIM}- {Player.CurrentWeapon.MoveName} {World.RESET}{World.DIM}{World.RED}({Player.CurrentWeapon.CurrentDamage} DMG){World.RESET}");
             Console.WriteLine($"{World.BLUE}2. {World.RED}RETURN{World.RESET}");
             if (World.ChooseOption("1", "2") == "2")
             {
@@ -69,7 +69,7 @@ public class Battle
             {
                 int hit_chance = World.RandomGenerator.Next(1,101);
                 // The player randomly does between 80-120% of their weapons damage
-                PlayersDamage = (int)(Player.CurrentWeapon.MaximumDamage * World.RandomGenerator.Next(80,120) * 0.01);
+                PlayersDamage = (int)(Player.CurrentWeapon.CurrentDamage * World.RandomGenerator.Next(80,120) * 0.01);
                 if (Program.Player.PotionsActive.Any(p => p.ID == 3))
                     PlayersDamage += 50;
                 if (Program.Player.PotionsActive.Any(p => p.ID == 4))
@@ -86,14 +86,14 @@ public class Battle
                     if (PlayersDamage > Monster.CurrentHitPoints){PlayersDamage = Monster.CurrentHitPoints;}
                     Monster.CurrentHitPoints -= PlayersDamage;
                     ConstructMenu();
-                    Console.WriteLine($"{World.YELLOW}CRITICAL!{World.RESET} You did {World.RED}{100*PlayersDamage/Monster.MaximumHitPoints}% DMG {World.RESET}");
+                    Console.WriteLine($"{World.YELLOW}CRITICAL!{World.RESET} You did {World.RED}{PlayersDamage} DMG {World.RESET}");
                 }
                 else
                 { // 80% chance to hit, standard damage
                     if (PlayersDamage > Monster.CurrentHitPoints){PlayersDamage = Monster.CurrentHitPoints;}
                     Monster.CurrentHitPoints -= PlayersDamage;
                     ConstructMenu();
-                    Console.WriteLine($"{World.GREEN}HIT!{World.RESET} You did {World.RED}{100*PlayersDamage/Monster.MaximumHitPoints}% DMG{World.RESET}");
+                    Console.WriteLine($"{World.GREEN}HIT!{World.RESET} You did {World.RED}{PlayersDamage} DMG{World.RESET}");
                 }
                 PlayersDamage = 0;
                 
@@ -108,23 +108,37 @@ public class Battle
                     Console.WriteLine($"{World.GREEN}You have successfully defeated {Monster.Name}!{World.RESET}");
                     World.Continue();
                     // Receive gold
-                    int GoldObtained = (int)(Monster.GoldDrop * World.RandomGenerator.Next(80,120) * 0.01);
-                    Player.Gold += GoldObtained;
+                    int goldObtained = (int)(Monster.GoldDrop * World.RandomGenerator.Next(80,120) * 0.01);
+                    Player.Gold += goldObtained;
                     ConstructMenu();
-                    Console.WriteLine($"{World.YELLOW}+{GoldObtained} Gold{World.RESET}");
+                    Console.WriteLine($"{World.YELLOW}+{goldObtained} Gold{World.RESET}");
                     World.Continue();
                     ConstructMenu();
                     // If the monster drops a lootbox
-                    // if (World.RandomGenerator.Next(1,101) <= Monster.LootboxChance)
-                    // {
-                    //     Console.WriteLine($"{World.GREEN}Oh?{World.RESET} {Monster.Name} is carrying {World.BOLD}something...{World.RESET}");
-                    //     Console.Write($"{World.UNDERLINE}Reach for it?{World.RESET}");
-                    //     Console.ReadLine(); 
-                    //     ConstructMenu();
-                    //     Console.WriteLine("This feature has not been implemented yet");
-                    //     // TODO: Add weapon obtainment to inventory
-                    //     World.Continue();
-                    // }
+                    if ((!Monster.WeaponDropped || World.RandomGenerator.Next(0,101) <= 20) && Monster.LootboxRarity != null)
+                    {
+                        Console.WriteLine($"{World.GREEN}Oh?{World.RESET} {Monster.Name} is carrying {World.BOLD}something...{World.RESET}");
+                        Console.Write($"{World.UNDERLINE}Reach for it?{World.RESET}");
+                        Console.ReadLine(); 
+                        ConstructMenu();
+                        List<string> rarities = ["Common", "Rare", "Epic", "Legendary", "Mythical"];
+                        Weapon chosenWeapon = new(World.WeaponByID(World.RandomGenerator.Next(1,4) + rarities.IndexOf(Monster.LootboxRarity)*3));
+                        chosenWeapon.SetQuality();
+                        Program.Player.Inventory.AddWeapon(chosenWeapon);
+                        Monster.WeaponDropped = true;
+                        Console.WriteLine($"{World.YELLOW}You have obtained a {World.RESET}{chosenWeapon.Name}{World.YELLOW}!{World.RESET}");
+                        Console.WriteLine($"{World.YELLOW}QUALITY: {World.RESET}{chosenWeapon.Quality}");
+                        Console.WriteLine($"{World.GREEN}RARITY: {World.RESET}{chosenWeapon.Rarity}");
+                        Console.WriteLine($"{World.RED}DAMAGE: {World.RESET}{chosenWeapon.CurrentDamage}");
+                        World.Continue();
+                        if (chosenWeapon.Rarity == "Mythical")
+                        {   
+                            Program.Player.Inventory.AddWeapon(Program.Player.CurrentWeapon);
+                            Player.CurrentWeapon = chosenWeapon;
+                            ConstructMenu();
+                            Console.WriteLine($"{World.RED}You automatically equipped the {chosenWeapon.Name}");
+                        }
+                    }
 
                     if (quest is not null)
                     {
@@ -137,23 +151,37 @@ public class Battle
         }
         else if (option == "2")
         {
-            Player.Inventory.ViewInventory(true);
-            goto back;
+            if (Monster.IsBoss)
+            {
+                Console.WriteLine($"{World.RED}{Monster.Name} is {World.BOLD}PROHIBITING{World.RESET}{World.RED} you from using items.");
+            }
+            else
+            {
+                Player.Inventory.ViewInventory(true);
+                goto back;
+            }
         }
         else if (option == "3")
         {
-            // 50% chance to fail the flee
-            if (World.RandomGenerator.Next(100) < 50 )
+            if (Monster.IsBoss)
             {
-                Console.WriteLine($"{World.RED}You failed to flee{World.RESET}");
-                World.Continue();
+                Console.WriteLine($"{World.RED}{Monster.Name} is {World.BOLD}PROHIBITING{World.RESET}{World.RED} you from fleeing.");
             }
-            else
-            // 50% chance to succeed the flee (No rewards)
-            {
-                Console.WriteLine($"{World.GREEN}You have successfully fled!{World.RESET}");
-                FinishedBattle = true;
-                World.Continue();
+                else
+                {
+                // 50% chance to fail the flee
+                if (World.RandomGenerator.Next(100) < 50 )
+                {
+                    Console.WriteLine($"{World.RED}You failed to flee{World.RESET}");
+                    World.Continue();
+                }
+                else
+                // 50% chance to succeed the flee (No rewards)
+                {
+                    Console.WriteLine($"{World.GREEN}You have successfully fled!{World.RESET}");
+                    FinishedBattle = true;
+                    World.Continue();
+                }
             }
         }
 
@@ -184,12 +212,12 @@ public class Battle
     public void ConstructMenu() // Refresh the screen with the player + monster health
     {
         Program.Refresh();
-        Console.WriteLine($"{World.RED}--- Battle ---{World.RESET}");
+        Console.WriteLine($"{World.RED} {(Monster.IsBoss ? "--- ☠︎︎ BOSS FIGHT ☠︎︎ ---" : "--- Battle ---")}{World.RESET}");
         // Monsters HP
-        Console.Write($"{Monster.Name}: {World.RED}{100*Monster.CurrentHitPoints/Monster.MaximumHitPoints}%{World.RESET} HP");
+        Console.Write($"{Monster.Name}: {World.RED}{Monster.CurrentHitPoints}/{Monster.MaximumHitPoints}{World.RESET} HP");
         if (PlayersDamage != 0)
         { // Health lower indicator for monster
-            Console.WriteLine($" {World.RED}{World.DIM}-{100*PlayersDamage/Monster.MaximumHitPoints}%{World.RESET}");
+            Console.WriteLine($" {World.RED}{World.DIM}-{PlayersDamage}{World.RESET}");
         } else {Console.WriteLine();}
         // Players HP
         Console.Write($"{Player.Name}: {World.RED}{Player.CurrentHitPoints}/{Player.MaximumHitPoints}{World.RESET} HP");
