@@ -156,7 +156,25 @@
     {
         Console.Clear();
 
-        Console.WriteLine($"{World.GREEN}{World.BOLD}YOU WIN!{World.RESET}");
+        Console.WriteLine($"{World.GREEN}{World.BOLD}");
+        Console.WriteLine("██╗   ██╗ ██████╗ ██╗   ██╗    ██╗    ██╗██╗███╗   ██╗");
+        Console.WriteLine("╚██╗ ██╔╝██╔═══██╗██║   ██║    ██║    ██║██║████╗  ██║");
+        Console.WriteLine(" ╚████╔╝ ██║   ██║██║   ██║    ██║ █╗ ██║██║██╔██╗ ██║");
+        Console.WriteLine("  ╚██╔╝  ██║   ██║██║   ██║    ██║███╗██║██║██║╚██╗██║");
+        Console.WriteLine("   ██║   ╚██████╔╝╚██████╔╝    ╚███╔███╔╝██║██║ ╚████║");
+        Console.WriteLine("   ╚═╝    ╚═════╝  ╚═════╝      ╚══╝╚══╝ ╚═╝╚═╝  ╚═══╝");
+        Console.WriteLine($"{World.RESET}");
+
+        Console.WriteLine();
+        Console.WriteLine($"{World.BLUE}{World.BOLD}        ⚔  MICHELON HAS BEEN DEFEATED  ⚔{World.RESET}");
+        Console.WriteLine();
+        Console.WriteLine($"{World.GREEN}        THE ISLAND IS FREE ONCE AGAIN{World.RESET}");
+
+        World.Continue();
+
+        Console.Clear();
+
+        Console.WriteLine($"{World.BLUE}{World.BOLD}FINAL STATISTICS{World.RESET}");
         Console.WriteLine();
 
         Console.WriteLine($"Name: {Player.Name}");
@@ -164,6 +182,11 @@
         Console.WriteLine($"Gold: {Player.Gold}");
         Console.WriteLine($"Weapon: {Player.CurrentWeapon.Name}");
         Console.WriteLine($"Armour: {Player.CurrentArmour.Name}");
+
+        Console.WriteLine();
+        Console.WriteLine($"{World.GREEN}{World.BOLD}Congratulations, {Player.Name}!{World.RESET}");
+        Console.WriteLine("You have completed Michelon Island Adventure.");
+
         game_running = false;
     }
 }
