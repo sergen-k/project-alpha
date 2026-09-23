@@ -140,6 +140,7 @@ public class Location
                                 Console.WriteLine($"{World.GREEN}The island has been saved.");
                                 Console.WriteLine($"{World.GREEN}You can go home now.");
                                 Program.WinGame();
+                                return;
                             }
                         }
                     }
